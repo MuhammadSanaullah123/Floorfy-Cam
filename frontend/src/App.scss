@@ -1,0 +1,243 @@
+/*<------------------------------------------------User:Login Start------------------------------------------------>*/
+#login {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 100px;
+}
+
+/*<------------------------------------------------User:Login End------------------------------------------------>*/
+
+/*<------------------------------------------------User:Header Start------------------------------------------------>*/
+#header {
+  position: sticky;
+  top: 0;
+  #upperHeader {
+    display: flex;
+    max-width: 1600px;
+    margin: 0 auto;
+    background-color: var(--secondary-color);
+    height: 45px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+
+    .fa-bars {
+      font-size: 24px;
+      @media (max-width: 768px) {
+        display: flex;
+      }
+      @media (min-width: 768px) {
+        display: none;
+      }
+    }
+    .logoSpan {
+      display: flex;
+      height: inherit;
+      align-items: center;
+      cursor: pointer;
+      .logo {
+        height: inherit;
+      }
+      h1 {
+        margin-left: 10px;
+        font-weight: 500;
+        font-size: 34px;
+        margin-bottom: 2px;
+      }
+      @media (max-width: 550px) {
+        /*  width: auto; */
+        margin-right: 10px;
+      }
+    }
+    .searchInput {
+      border-color: #fff;
+      color: #fff;
+      height: 40px;
+      border-radius: 6px;
+      margin-left: auto;
+      margin-right: 20px;
+      @media (max-width: 768px) {
+        display: none;
+      }
+    }
+    #outlined-adornment-weight {
+      color: #fff;
+      max-width: 120px;
+    }
+
+    .MuiOutlinedInput-notchedOutline {
+      border-color: #fff;
+    }
+    .fa-magnifying-glass {
+      color: #fff;
+    }
+    .searchInput::placeholder {
+      color: #fff;
+    }
+    .profileDiv {
+      display: flex;
+      align-items: center;
+      padding: 5px;
+      height: 35px;
+      border: 1px solid #fff;
+      background-color: #ffffff26;
+      border-radius: 26px;
+      @media (max-width: 768px) {
+        width: 60px;
+        justify-content: space-between;
+      }
+
+      cursor: pointer;
+      img {
+        border-radius: 50%;
+      }
+      .userSpan {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #fff;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+      }
+      .profileDivp1 {
+        margin: 0 8px 0 10px;
+        font-weight: 500;
+        @media (max-width: 768px) {
+          display: none;
+        }
+      }
+      .fa-angle-down,
+      .fa-angle-up {
+        margin-top: 5px;
+        margin-right: 2px;
+      }
+    }
+    .menuDiv {
+      display: flex;
+      flex-direction: column;
+      width: 250px;
+      /* height: 100px; */
+      background-color: #fff;
+      border-radius: 6px;
+      position: absolute;
+      top: 70px;
+      right: 20px;
+      justify-content: space-around;
+      padding: 10px;
+      box-shadow: 0 1px 8px #2a356b66;
+      .menuDiv1 {
+        display: flex;
+        align-items: center;
+        .imgSpan {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 1px solid var(--primary-color);
+          border-radius: 50%;
+          width: 60px;
+          height: 60px;
+          margin-right: 15px;
+          .fa-user {
+            font-size: 30px;
+            color: var(--primary-color);
+          }
+        }
+        .emailSpan {
+          display: flex;
+          flex-direction: column;
+          /*         align-items: center; */
+          justify-content: center;
+          p {
+            color: #00000084;
+            margin: 0;
+            margin-bottom: 5px;
+            font-size: 12px;
+          }
+          a {
+            color: #1a1b23;
+            font-size: 14px;
+
+            font-weight: 500;
+          }
+        }
+      }
+      .linkDiv {
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+        margin-bottom: 15px;
+        height: 30px;
+        border-radius: 6px;
+        cursor: pointer;
+        .linkIcon {
+          color: rgb(0 0 0 / 35%);
+          font-size: 16px;
+          margin-left: 10px;
+        }
+        .linkIconFlip {
+          transform: scaleX(-1);
+        }
+        p {
+          margin: 0;
+          color: rgb(0 0 0 / 70%);
+          font-size: 12px;
+          margin-left: 10px;
+        }
+      }
+      .linkDiv:hover {
+        background-color: #00000017;
+        .linkIcon {
+          color: var(--primary-color);
+        }
+      }
+    }
+    .profileDiv:hover {
+      background-color: #ffffff45;
+    }
+  }
+
+  #sideDrawer {
+    width: 200px;
+    height: 600px;
+    background-color: #fff;
+    height: 90vh;
+    padding: 10px;
+    .sideLinkDiv {
+      display: flex;
+      align-items: center;
+      margin-left: 5px;
+      margin-bottom: 15px;
+      height: 40px;
+      cursor: pointer;
+      .sideIcon {
+        color: rgba(0, 0, 0, 0.589);
+        font-size: 20px;
+        margin-left: 10px;
+      }
+      .sideLinkDivp {
+        color: rgb(75 75 75 / 66%);
+        margin-left: 15px;
+        margin-bottom: 5px;
+        font-weight: 500;
+        font-size: 16px;
+      }
+    }
+    .sideLinkDiv:hover {
+      background-color: #d3d3d37b;
+      .sideIcon {
+        color: var(--primary-color);
+      }
+    }
+  }
+}
+.hr {
+  width: 100%;
+  height: 1px;
+  background-color: #00000021;
+}
+/*<------------------------------------------------User:Header End------------------------------------------------>*/
