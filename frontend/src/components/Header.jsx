@@ -8,11 +8,12 @@ import InputAdornment from "@mui/material/InputAdornment";
 import OutlinedInput from "@mui/material/OutlinedInput";
 const Header = () => {
   const [mobile, setMobile] = useState(false);
-  const [profile, setProfile] = useState(false);
+  const [sideBar, setSideBar] = useState(false);
 
-  useEffect(() => {
+  const [profile, setProfile] = useState(false);
+  /*   useEffect(() => {
     const handleScroll = () => {
-      const header = document.getElementById("header");
+      const header = document.getElementById("upperHeader");
       if (window.scrollY > 0) {
         header.style.boxShadow = "rgb(0 0 0) 0px 2px 4px 1px";
       } else {
@@ -25,21 +26,25 @@ const Header = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, []); */
+
+  const handleMobile = async () => {
+    setMobile(!mobile);
+    const sidebar = document.getElementById("sideDrawer");
+    if (mobile) {
+      sidebar.style.display = "none";
+    } else {
+      sidebar.style.display = "block";
+    }
+  };
 
   return (
     <div id="header">
       <div id="upperHeader">
         {!mobile ? (
-          <i
-            className="fa-solid fa-bars"
-            onClick={() => setMobile(!mobile)}
-          ></i>
+          <i className="fa-solid fa-bars" onClick={handleMobile}></i>
         ) : (
-          <i
-            className="fa-solid fa-xmark fa-bars"
-            onClick={() => setMobile(!mobile)}
-          ></i>
+          <i className="fa-solid fa-xmark fa-bars" onClick={handleMobile}></i>
         )}
         <span className="logoSpan">
           <img src={logo} alt="" className="logo" />
@@ -140,28 +145,6 @@ const Header = () => {
               <p>Log out</p>
             </div>
           </div>
-        </div>
-      </div>
-      <div id="sideDrawer">
-        <div className="sideLinkDiv">
-          <i className="fa-solid fa-table-cells-large sideIcon"></i>
-          <p className="sideLinkDivp">Home</p>
-        </div>
-        <div className="sideLinkDiv">
-          <i className="fa-solid fa-house-chimney sideIcon"></i>
-          <p className="sideLinkDivp">Properties</p>
-        </div>
-        <div className="sideLinkDiv">
-          <i className="fa-solid fa-video sideIcon"></i>
-          <p className="sideLinkDivp">Videocalls</p>
-        </div>
-        <div className="sideLinkDiv">
-          <i className="fa-solid fa-chart-pie sideIcon"></i>
-          <p className="sideLinkDivp">Analytics</p>
-        </div>
-        <div className="sideLinkDiv">
-          <i className="fa-regular fa-circle-question sideIcon"></i>
-          <p className="sideLinkDivp">Help</p>
         </div>
       </div>
     </div>

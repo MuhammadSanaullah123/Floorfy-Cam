@@ -39,7 +39,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: #eef0f2;
   color: #fff;
-  /*   max-width: 1600px; */
+  max-width: 1600px;
   margin: 0 auto;
 }
 p {
