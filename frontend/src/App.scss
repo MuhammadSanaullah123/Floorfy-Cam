@@ -27,7 +27,7 @@
     align-items: center;
     padding: 10px 20px;
     @media (max-width: 768px) {
-      width: 100%;
+      /*    width: 100%; */
     }
     .fa-bars {
       font-size: 24px;
@@ -233,9 +233,15 @@
     margin-left: 5px;
     margin-bottom: 15px;
     height: 40px;
+    border-radius: 4px;
     cursor: pointer;
     .sideIcon {
       color: rgba(0, 0, 0, 0.589);
+      font-size: 20px;
+      margin-left: 10px;
+    }
+    .sideIconSelected {
+      color: var(--primary-color);
       font-size: 20px;
       margin-left: 10px;
     }
@@ -246,6 +252,16 @@
       font-weight: 500;
       font-size: 16px;
     }
+    .sideLinkDivpSelected {
+      color: rgb(47, 47, 47);
+      margin-left: 15px;
+      margin-bottom: 5px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+  }
+  .sideLinkDivSelected {
+    background-color: #5d5d5d37;
   }
   .sideLinkDiv:hover {
     background-color: #d3d3d37b;
@@ -283,12 +299,17 @@
       width: 93%;
     }
     @media (max-width: 768px) {
-      width: 100%;
+      padding-left: 0;
+      padding-right: 0;
+      margin: 0 auto;
     }
     .homeDiv1d1 {
       width: 65%;
       @media (max-width: 950px) {
         width: auto;
+      }
+      @media (max-width: 768px) {
+        margin: 0 10px 0 10px;
       }
       .numberDiv {
         display: flex;
@@ -361,6 +382,9 @@
       }
       @media (max-width: 950px) {
         width: auto;
+      }
+      @media (max-width: 768px) {
+        margin: 0 10px 0 10px;
       }
       .homeDiv1d1span1 {
         display: flex;
@@ -500,18 +524,22 @@
     justify-content: space-between;
     flex-wrap: wrap;
     @media (max-width: 768px) {
-      width: 100%;
-      margin-left: 20px;
+      padding-left: 0;
+      padding-right: 0;
+      margin: 0 auto;
+      /*  margin-left: 20px; */
+      margin-top: 15px;
     }
     .homeDiv3 {
       width: 30%;
       display: flex;
       flex-direction: column;
+
       @media (max-width: 1135px) {
         width: 49%;
       }
       @media (max-width: 768px) {
-        width: 100%;
+        width: 95%;
         margin: 0 auto;
       }
       h1 {
@@ -521,6 +549,7 @@
       .homeDiv4 {
         border-radius: 8px;
         margin-top: 15px;
+        height: -webkit-fill-available;
         .css-1elwnq4-MuiPaper-root-MuiAccordion-root {
           box-shadow: none !important;
           border-radius: 6px;
@@ -530,6 +559,11 @@
           display: flex;
           align-items: center;
           .fa-graduation-cap {
+            margin-right: 10px;
+            color: #06c15d;
+            align-self: flex-start;
+          }
+          .fa-lock {
             margin-right: 10px;
             color: #06c15d;
             align-self: flex-start;
@@ -576,6 +610,9 @@
             font-size: 14px;
             margin-bottom: 3px;
           }
+          .checklistImg {
+            height: 35px;
+          }
         }
       }
     }
@@ -591,3 +628,506 @@
   }
 }
 /*<------------------------------------------------User:Home End------------------------------------------------>*/
+
+/*<------------------------------------------------User:TutorialModal Start------------------------------------------------>*/
+#tutorialmodal {
+  text-align: center;
+  .fa-xmark {
+    color: var(--secondary-color);
+    font-size: 20px;
+    align-self: self-end;
+    cursor: pointer;
+  }
+  h1 {
+    color: var(--primary-color);
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+  p {
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+  }
+  .h1 {
+    text-align: left;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  .p1 {
+    text-align: left;
+    color: var(--secondary-color);
+    font-weight: 600;
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+  .p2 {
+    text-align: left;
+    font-size: 14px;
+  }
+  #video {
+    height: 320px;
+    width: 500px;
+    border-radius: 12px;
+  }
+  form {
+    width: 95%;
+    p {
+      font-weight: 500;
+      text-align: left;
+      margin: 0;
+      margin-bottom: 10px;
+    }
+  }
+  .downloadAppForm {
+    display: flex;
+    align-items: center;
+    input {
+      margin-bottom: 0;
+      margin-right: 10px;
+    }
+    button {
+      height: 45px;
+      margin: 0;
+    }
+  }
+  .downloadDivParent {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .downloadDiv {
+    height: 50px;
+    width: 150px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--secondary-color);
+    padding: 5px;
+    margin-top: 20px;
+    margin-right: 15px;
+    cursor: pointer;
+    .fa-apple {
+      color: var(--secondary-color);
+      font-size: 30px;
+    }
+    p {
+      margin: 0;
+    }
+  }
+  .parentDiv {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    align-self: center;
+    .parentDivChild {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100px;
+      height: 50px;
+      cursor: pointer;
+      border-radius: 4px;
+      color: var(--secondary-color);
+      border: 1px solid var(--secondary-color);
+      margin-right: 10px;
+    }
+    .parentDivChildSelected {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100px;
+      height: 50px;
+      cursor: pointer;
+      border-radius: 4px;
+      color: #fff;
+      border: 0;
+
+      margin-right: 10px;
+      background-color: var(--primary-color);
+    }
+    .parentDivChild:hover {
+      transform: scale(1.02);
+      transition: all ease 0.3s;
+    }
+  }
+  .nameInput {
+    height: 40px;
+    width: 100%;
+    border-radius: 6px;
+    padding-left: 10px;
+    margin-bottom: 10px;
+    border-color: #0000005e;
+    font-family: "Atyp";
+    font-size: 16px;
+  }
+  .nameInput::placeholder {
+    font-family: "Atyp";
+    font-size: 16px;
+  }
+  button {
+    background-color: var(--primary-color);
+    border-radius: 6px;
+    height: 42px;
+    width: 120px;
+    border: 0;
+    font-size: 18px;
+    color: #fff;
+    font-weight: 500;
+    align-self: center;
+    margin: 10px 0 10px 0;
+  }
+}
+.PhoneInput {
+  height: 40px;
+  .PhoneInputCountry {
+    color: var(--secondary-color);
+    font-size: 20px;
+  }
+  input {
+    height: inherit;
+    border-radius: 4px;
+    padding-left: 10px;
+  }
+}
+
+/*<------------------------------------------------User:TutorialModal End------------------------------------------------>*/
+
+/*<------------------------------------------------User:Properties Start------------------------------------------------>*/
+#properties {
+  display: flex;
+  flex-direction: column;
+  max-width: 1600px;
+  margin-left: 14em;
+  margin-bottom: 50px;
+  margin-top: 10px;
+  @media (max-width: 768px) {
+    margin-left: 0;
+  }
+  .propertiesh1 {
+    color: var(--secondary-color);
+    font-size: 18px;
+    @media (max-width: 768px) {
+      margin-left: 10px;
+    }
+  }
+  .headerDiv {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    box-shadow: rgba(86, 92, 113, 0.1) 0px 2px 15px;
+    border-radius: 8px;
+    height: 60px;
+    width: 95%;
+    margin-top: 15px;
+    @media (max-width: 768px) {
+      margin-left: 10px;
+    }
+    h4 {
+      color: #0000004e;
+      margin: 0 15px 0 15px;
+    }
+    a {
+      text-decoration: none;
+      margin-left: 20px;
+      display: flex;
+      align-items: center;
+      .linkp {
+        color: #00000081;
+        font-size: 16px;
+        font-weight: 500;
+      }
+      .linkpSelected {
+        color: var(--primary-color);
+        font-size: 16px;
+        font-weight: 500;
+      }
+      .linkspan {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        margin-left: 5px;
+        background-color: #00000081;
+        border-radius: 50%;
+        color: #fff;
+        font-family: "Atyp";
+      }
+      .linkspanSelected {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        margin-left: 5px;
+        background-color: var(--primary-color);
+        border-radius: 50%;
+        color: #fff;
+        font-family: "Atyp";
+      }
+    }
+    .searchDiv {
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+      @media (max-width: 500px) {
+        display: none;
+      }
+      .searchInput {
+        height: 40px;
+        margin-left: 5px;
+      }
+      .downloadSpan {
+        border: 1px solid #00000037;
+        border-radius: 4px;
+        height: 38px;
+        width: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 20px;
+        margin-right: 15px;
+        cursor: pointer;
+        .fa-download {
+          color: #00000081;
+          font-size: 20px;
+        }
+      }
+      .downloadSpan:hover {
+        transform: scale(1.02);
+        transition: all ease 0.3s;
+      }
+    }
+    .searchDivMobile {
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+
+      .searchInput {
+        height: 40px;
+        margin-left: 5px;
+      }
+      .downloadSpan {
+        border: 1px solid #00000037;
+        border-radius: 4px;
+        height: 38px;
+        width: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 20px;
+        margin-right: 15px;
+        cursor: pointer;
+        .fa-download {
+          color: #00000081;
+          font-size: 20px;
+        }
+      }
+      .downloadSpan:hover {
+        transform: scale(1.02);
+        transition: all ease 0.3s;
+      }
+    }
+  }
+  .headerDivMobile {
+    @media (min-width: 500px) {
+      display: none;
+    }
+    .searchDivMobile {
+      margin-left: 10px;
+    }
+  }
+  .tourDiv {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    column-gap: 15px;
+    row-gap: 15px;
+    @media (max-width: 768px) {
+      margin-left: 10px;
+    }
+    @media (max-width: 350px) {
+      overflow-x: auto;
+      margin-right: 10px;
+    }
+    .newTourDiv {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 2px dashed var(--primary-color);
+      border-radius: 6px;
+      height: 230px;
+      width: 30%;
+      min-width: 335px;
+      background-color: #fff;
+      filter: drop-shadow(rgba(42, 53, 107, 0.4) 0px 1px 8px);
+      @media (max-width: 910px) {
+        width: 95%;
+      }
+      .worldImg {
+        color: var(--primary-color);
+      }
+      p {
+        color: var(--primary-color);
+        font-size: 12px;
+      }
+    }
+  }
+  .resultDiv {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    box-shadow: rgba(21, 10, 82, 0.1) 0px 10px 30px;
+    border-radius: 8px;
+    height: 50px;
+    width: 95%;
+    margin-top: 15px;
+
+    @media (max-width: 768px) {
+      margin-left: 10px;
+      width: 94%;
+    }
+
+    p {
+      color: var(--secondary-color);
+      font-size: 16px;
+      margin-left: 20px;
+      font-weight: 500;
+    }
+  }
+}
+
+/*<------------------------------------------------User:Properties End------------------------------------------------>*/
+
+/*<------------------------------------------------User:TourDemoDiv Start------------------------------------------------>*/
+
+#tourdemodiv {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+
+  border-radius: 6px;
+  height: 240px;
+  width: 30%;
+  min-width: 335px;
+  @media (max-width: 910px) {
+    width: 95%;
+  }
+  filter: drop-shadow(rgba(42, 53, 107, 0.4) 0px 1px 8px);
+  .upperDiv {
+    height: 170px;
+    border-radius: 6px 6px 0 0;
+    background-image: url("./assets/tourexample.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 10px 10px 0 10px;
+    position: relative;
+
+    .span1 {
+      display: flex;
+      align-items: center;
+      h1 {
+        color: #fff;
+        font-size: 16px;
+        margin-right: auto;
+      }
+      .fa-share-nodes {
+        margin-right: 15px;
+      }
+      .icon {
+        color: #fff;
+        font-size: 22px;
+        cursor: pointer;
+      }
+    }
+    .span2 {
+      display: flex;
+      align-items: center;
+      margin-top: 7px;
+      font-weight: 500;
+      p {
+        margin-left: 5px;
+      }
+    }
+    .span3 {
+      background-color: var(--secondary-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      height: 20px;
+      width: fit-content;
+      padding: 0 3px 0 3px;
+      position: absolute;
+      bottom: 15px;
+      right: 10px;
+    }
+    .fa-location-dot {
+      font-size: 16px;
+    }
+    p {
+      font-size: 12px;
+      color: #fff;
+    }
+  }
+  .lowerDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    .imageSpan {
+      display: flex;
+      align-content: center;
+      justify-content: center;
+      border: 1px solid var(--primary-color);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      margin-right: 5px;
+    }
+    .startSpan {
+      display: flex;
+      align-items: center;
+      height: 45px;
+      border-radius: 6px;
+      border: 1px solid var(--primary-color);
+      margin-left: 5px;
+      .fa-video {
+        color: var(--secondary-color);
+        margin: 0 10px 0 10px;
+      }
+      p {
+        color: var(--secondary-color);
+        margin-right: 10px;
+        margin-bottom: 5px;
+      }
+    }
+  }
+}
+.tourhomeDiv3 {
+  width: 36% !important;
+  @media (max-width: 768px) {
+    width: 100% !important;
+  }
+}
+.hometourdemodiv {
+  width: 100% !important;
+  height: 100% !important;
+  @media (max-width: 350px) {
+    min-width: 0 !important;
+    .startSpan,
+    .verticalLine {
+      display: none !important;
+    }
+  }
+}
+.homeupperDiv {
+  height: 200px !important;
+}
+.verticalLine {
+  height: 100%;
+  width: 1px;
+  background-color: #00000042;
+}
+/*<------------------------------------------------User:TourDemoDiv End------------------------------------------------>*/

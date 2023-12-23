@@ -11,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import Home from "./userPages/Home";
-
+import Properties from "./userPages/Properties";
 const App = () => {
   return (
     <>
@@ -23,6 +23,7 @@ const App = () => {
         <Routes>
           <Route exact path="/home" element={<Home />} />
           <Route exact path="/" element={<Navigate replace to="/home" />} />
+          <Route exact path="/properties" element={<Properties />} />
         </Routes>
       </Router>
     </>

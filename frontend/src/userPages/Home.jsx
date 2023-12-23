@@ -1,10 +1,17 @@
 import React, { useState, useCallback } from "react";
 
 //assets
+import share from "../assets/share.svg";
+import hdimage from "../assets/hdimage.svg";
+
 import floorplan from "../assets/floorplan.svg";
 import tour360 from "../assets/360tour.svg";
 import virtual_tour from "../assets/virtual_tour.svg";
 import render_3D from "../assets/render_3D.svg";
+import Camera360 from "../assets/360Camera.svg";
+import tripod from "../assets/tripod.svg";
+import app from "../assets/app.svg";
+
 //other
 import { useDropzone } from "react-dropzone";
 //mui
@@ -16,6 +23,11 @@ import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
 import { styled } from "@mui/material/styles";
+import TutorialModal from "../components/TutorialModal";
+
+//components
+import TourDemoDiv from "../components/TourDemoDiv";
+
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   width: 180,
   height: 10,
@@ -32,6 +44,9 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 
 const Home = () => {
   const [file, setFile] = useState();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [content, setContent] = useState();
+
   const [disableDiv, setDisableDiv] = useState(true);
   const [selectedDiv, setSelectedDiv] = useState([]);
   const onDrop = useCallback((acceptedFiles) => {
@@ -55,6 +70,8 @@ const Home = () => {
   const handleDivClick = (name) => {
     console.log(name);
     setSelectedDiv([...selectedDiv, name]);
+    setModalOpen(true);
+    setContent(name);
   };
   console.log(selectedDiv);
   const handleSubmit = (e) => {
@@ -333,7 +350,7 @@ const Home = () => {
                 id="panel1a-header"
               >
                 <div className="accordDiv">
-                  <i className="fa-solid fa-graduation-cap"></i>
+                  <i className="fa-solid fa-lock"></i>
                   <span className="accordDivSpan">
                     <h1>Basic knowledge</h1>
                     <div className="progressDiv">
@@ -365,7 +382,8 @@ const Home = () => {
                       selectedDiv.includes(4) ? "fa-circle-check-green" : ""
                     }`}
                   ></i>
-                  <h1>How it works</h1>
+                  <img src={app} alt="" className="checklistImg" />
+                  <h1>Cam App</h1>
                   <i className="fa-solid fa-angle-right"></i>
                 </div>
                 <div className="checklistDiv" onClick={() => handleDivClick(5)}>
@@ -374,14 +392,16 @@ const Home = () => {
                       selectedDiv.includes(5) ? "fa-circle-check-green" : ""
                     }`}
                   ></i>
-                  <h1>How to take photos?</h1>
+                  <img src={Camera360} alt="" className="checklistImg" />
+
+                  <h1>360º Camera</h1>
                   <i className="fa-solid fa-angle-right"></i>
                 </div>
                 <div
                   className="checklistDiv"
                   onClick={() => handleDivClick(6)}
                   style={{
-                    marginTop: "10px",
+                    marginBottom: "0px",
                   }}
                 >
                   <i
@@ -389,91 +409,94 @@ const Home = () => {
                       selectedDiv.includes(6) ? "fa-circle-check-green" : ""
                     }`}
                   ></i>
-                  <h1>Request free training</h1>
+                  <img src={tripod} alt="" className="checklistImg" />
+
+                  <h1>Tripod</h1>
                   <i className="fa-solid fa-angle-right"></i>
                 </div>
               </AccordionDetails>
             </Accordion>
           </div>
         </div>
-        <div className="homeDiv3">
-          <h1>TRY OUR DEMO</h1>
-          <div
-            className="homeDiv4"
+        <div
+          className="homeDiv3 tourhomeDiv3"
+          /*    style={{
+            width: "36%",
+          }} */
+        >
+          <h1
             style={{
-              filter: "drop-shadow(rgba(42, 53, 107, 0.4) 0px 1px 8px)",
+              visibility: "hidden",
             }}
           >
-            <Accordion defaultExpanded={true}>
-              <AccordionSummary
-                expandIcon={<i className="fa-solid fa-angle-down"></i>}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
+            LET'S START
+          </h1>
+          <div className="homeDiv4">
+            <div
+              id="tourdemodiv"
+              className="hometourdemodiv"
+              /*      style={{
+                width: "100%",
+                height: "100%",
+              }} */
+            >
+              <div
+                className="upperDiv homeupperDiv"
+                /*  style={{
+                  height: "200px",
+                }} */
               >
-                <div className="accordDiv">
-                  <i className="fa-solid fa-graduation-cap"></i>
-                  <span className="accordDivSpan">
-                    <h1>Basic knowledge</h1>
-                    <div className="progressDiv">
-                      <BorderLinearProgress
-                        variant="determinate"
-                        value={33 * 1}
-                      />
-                      <p>0/3</p>
-                    </div>
-                  </span>
-                </div>
-              </AccordionSummary>
-              <AccordionDetails>
-                <div
-                  className="hr"
-                  style={{
-                    margin: "0 0 10px 0",
-                  }}
-                />
-                <div
-                  className="checklistDiv"
-                  onClick={() => handleDivClick(7)}
-                  style={{
-                    marginTop: "10px",
-                  }}
-                >
-                  <i
-                    className={`fa-solid fa-circle-check ${
-                      selectedDiv.includes(7) ? "fa-circle-check-green" : ""
-                    }`}
-                  ></i>
-                  <h1>How it works</h1>
-                  <i className="fa-solid fa-angle-right"></i>
-                </div>
-                <div className="checklistDiv" onClick={() => handleDivClick(8)}>
-                  <i
-                    className={`fa-solid fa-circle-check ${
-                      selectedDiv.includes(8) ? "fa-circle-check-green" : ""
-                    }`}
-                  ></i>
-                  <h1>How to take photos?</h1>
-                  <i className="fa-solid fa-angle-right"></i>
-                </div>
-                <div
-                  className="checklistDiv"
-                  onClick={() => handleDivClick(9)}
-                  style={{
-                    marginTop: "10px",
-                  }}
-                >
-                  <i
-                    className={`fa-solid fa-circle-check ${
-                      selectedDiv.includes(9) ? "fa-circle-check-green" : ""
-                    }`}
-                  ></i>
-                  <h1>Request free training</h1>
-                  <i className="fa-solid fa-angle-right"></i>
-                </div>
-              </AccordionDetails>
-            </Accordion>
+                <span className="span1">
+                  <h1>3D Tour Demo</h1>
+                  <img
+                    src={share}
+                    className="fa-solid fa-share-nodes icon"
+                    alt=""
+                  />
+                  <i className="fa-solid fa-ellipsis-vertical icon"></i>
+                </span>
+                <span className="span2">
+                  <i className="fa-solid fa-location-dot"></i>
+                  <p>Sitges, España, Passeig de la Ribera</p>
+                </span>
+                <span className="span3">
+                  <p>Tour 3D</p>
+                </span>
+              </div>
+              <div className="lowerDiv">
+                <span className="imageSpan">
+                  <img src={virtual_tour} alt="" />
+                </span>
+                <span className="imageSpan">
+                  <img src={render_3D} alt="" />
+                </span>
+                <span className="imageSpan">
+                  <img src={floorplan} alt="" />
+                </span>
+                <span className="imageSpan">
+                  <img
+                    src={hdimage}
+                    alt=""
+                    style={{
+                      width: "40px",
+                    }}
+                  />
+                </span>
+                <div className="verticalLine" />
+                <span className="startSpan">
+                  <i className="fa-solid fa-video"></i>
+                  <p>Start</p>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
+
+        <TutorialModal
+          content={content}
+          modalOpen={modalOpen}
+          setModalOpen={setModalOpen}
+        />
       </div>
     </div>
   );
