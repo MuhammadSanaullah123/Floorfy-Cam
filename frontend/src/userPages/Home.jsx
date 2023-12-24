@@ -42,7 +42,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   },
 }));
 
-const Home = () => {
+const Home = ({ loginComponent }) => {
   const [file, setFile] = useState();
   const [modalOpen, setModalOpen] = useState(false);
   const [content, setContent] = useState();
@@ -498,6 +498,7 @@ const Home = () => {
           setModalOpen={setModalOpen}
         />
       </div>
+      {/*  {loginComponent} */}
     </div>
   );
 };
