@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 //assets
 import tour360 from "../assets/360tour.svg";
@@ -14,24 +14,18 @@ import TourDemoDiv from "../components/TourDemoDiv";
 const Properties = () => {
   const [hashrender, setHashRender] = useState(false);
   let hash = window.location.hash;
-
+  const navigate = useNavigate();
   return (
     <div id="properties">
       <h1 className="propertiesh1">Properties</h1>
       <div className="headerDiv">
         <Link to="#active" onClick={() => setHashRender(!hashrender)}>
-          <p
-            className={` ${
-              window.location.hash === "#active" ? "linkpSelected" : "linkp"
-            }`}
-          >
+          <p className={` ${hash === "#active" ? "linkpSelected" : "linkp"}`}>
             Active
           </p>
           <span
             className={` ${
-              window.location.hash === "#active"
-                ? "linkspanSelected"
-                : "linkspan"
+              hash === "#active" ? "linkspanSelected" : "linkspan"
             }`}
           >
             1
@@ -45,18 +39,12 @@ const Properties = () => {
             marginLeft: "0",
           }}
         >
-          <p
-            className={` ${
-              window.location.hash === "#archived" ? "linkpSelected" : "linkp"
-            }`}
-          >
+          <p className={` ${hash === "#archived" ? "linkpSelected" : "linkp"}`}>
             Archived
           </p>
           <span
             className={` ${
-              window.location.hash === "#archived"
-                ? "linkspanSelected"
-                : "linkspan"
+              hash === "#archived" ? "linkspanSelected" : "linkspan"
             }`}
           >
             1
@@ -105,7 +93,13 @@ const Properties = () => {
       </div>
 
       <div className="tourDiv">
-        <div className="newTourDiv">
+        <div
+          className="newTourDiv"
+          onClick={() => navigate("/home")}
+          style={{
+            display: `${hash === "#active" ? "flex" : "none"}`,
+          }}
+        >
           <img src={tour360} alt="" className="worldImg" />
           <p>Create new tour</p>
         </div>

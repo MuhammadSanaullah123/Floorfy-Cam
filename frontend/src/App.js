@@ -14,6 +14,9 @@ import Home from "./userPages/Home";
 import Login from "./userPages/Login";
 import Signup from "./userPages/Signup";
 import Properties from "./userPages/Properties";
+import Videocalls from "./userPages/Videocalls";
+import Analytics from "./userPages/Analytics";
+import Help from "./userPages/Help";
 const App = () => {
   return (
     <>
@@ -45,6 +48,9 @@ const App = () => {
 
           <Route exact path="/" element={<Navigate replace to="/login" />} />
           <Route exact path="/properties" element={<Properties />} />
+          <Route exact path="/videocalls" element={<Videocalls />} />
+          <Route exact path="/analytics" element={<Analytics />} />
+          <Route exact path="/help" element={<Help />} />
         </Routes>
       </Router>
     </>

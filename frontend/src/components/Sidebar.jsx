@@ -51,7 +51,7 @@ const Sidebar = () => {
         className={`sideLinkDiv ${
           currentPage === "/videocalls" ? "sideLinkDivSelected" : "sideLinkDiv"
         }`}
-        onClick={() => navigate("/videocalls")}
+        onClick={() => navigate("/videocalls#videocalls")}
       >
         <i
           className={`fa-solid fa-video  ${

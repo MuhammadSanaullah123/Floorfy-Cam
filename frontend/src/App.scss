@@ -948,6 +948,7 @@
       height: 230px;
       width: 30%;
       min-width: 335px;
+      cursor: pointer;
       background-color: #fff;
       filter: drop-shadow(rgba(42, 53, 107, 0.4) 0px 1px 8px);
       @media (max-width: 910px) {
@@ -960,6 +961,10 @@
         color: var(--primary-color);
         font-size: 12px;
       }
+    }
+    .newTourDiv:hover {
+      transform: scale(1.01);
+      transition: all ease 0.3s;
     }
   }
   .resultDiv {
@@ -994,7 +999,7 @@
   display: flex;
   flex-direction: column;
   background-color: #fff;
-
+  cursor: pointer;
   border-radius: 6px;
   height: 240px;
   width: 30%;
@@ -1092,6 +1097,10 @@
       }
     }
   }
+}
+#tourdemodiv:hover {
+  transform: scale(1.01);
+  transition: all ease 0.3s;
 }
 .tourhomeDiv3 {
   width: 36% !important;
@@ -1335,3 +1344,450 @@
 }
 
 /*<------------------------------------------------User:Signup End------------------------------------------------>*/
+
+/*<------------------------------------------------User:Videocalls Start------------------------------------------------>*/
+#videocalls {
+  display: flex;
+  flex-direction: column;
+  max-width: 1600px;
+  margin-left: 14em;
+  margin-bottom: 50px;
+  margin-top: 10px;
+  @media (max-width: 768px) {
+    margin-left: 0;
+  }
+  .headerDiv {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    box-shadow: rgba(86, 92, 113, 0.1) 0px 2px 15px;
+    border-radius: 8px;
+    height: 60px;
+    width: 95%;
+    margin-top: 15px;
+    @media (max-width: 768px) {
+      margin-left: 10px;
+    }
+    h4 {
+      color: #0000004e;
+      margin: 0 15px 0 15px;
+    }
+    a {
+      text-decoration: none;
+      margin-left: 20px;
+      display: flex;
+      align-items: center;
+      .linkp {
+        color: #00000081;
+        font-size: 16px;
+        font-weight: 500;
+      }
+      .linkpSelected {
+        color: var(--primary-color);
+        font-size: 16px;
+        font-weight: 600;
+      }
+      .linkspan {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        margin-left: 5px;
+        background-color: #00000081;
+        border-radius: 50%;
+        color: #fff;
+        font-family: "Atyp";
+      }
+      .linkspanSelected {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        margin-left: 5px;
+        background-color: var(--primary-color);
+        border-radius: 50%;
+        color: #fff;
+        font-family: "Atyp";
+      }
+    }
+    .searchDiv {
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+      @media (max-width: 500px) {
+        display: none;
+      }
+      .searchInput {
+        height: 40px;
+        margin-left: 5px;
+      }
+      .downloadSpan {
+        border: 1px solid #00000037;
+        border-radius: 4px;
+        height: 38px;
+        width: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 20px;
+        margin-right: 15px;
+        cursor: pointer;
+        .fa-download {
+          color: #00000081;
+          font-size: 20px;
+        }
+      }
+      .downloadSpan:hover {
+        transform: scale(1.02);
+        transition: all ease 0.3s;
+      }
+    }
+    .searchDivMobile {
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+
+      .searchInput {
+        height: 40px;
+        margin-left: 5px;
+      }
+      .downloadSpan {
+        border: 1px solid #00000037;
+        border-radius: 4px;
+        height: 38px;
+        width: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 20px;
+        margin-right: 15px;
+        cursor: pointer;
+        .fa-download {
+          color: #00000081;
+          font-size: 20px;
+        }
+      }
+      .downloadSpan:hover {
+        transform: scale(1.02);
+        transition: all ease 0.3s;
+      }
+    }
+  }
+  .noContentDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5rem;
+    img {
+      width: 18em;
+    }
+    h1 {
+      font-size: 20px;
+      color: #0000009a;
+      font-weight: 600;
+    }
+    p {
+      font-size: 16px;
+      font-weight: 500;
+      color: #00000080;
+    }
+    a {
+      font-size: 18px;
+      color: var(--primary-color);
+      font-weight: 500;
+      margin-top: 30px;
+    }
+  }
+}
+/*<------------------------------------------------User:Videocalls End------------------------------------------------>*/
+
+/*<------------------------------------------------User:Analytics End------------------------------------------------>*/
+#analytics {
+  display: flex;
+  flex-direction: column;
+  max-width: 1600px;
+  margin-left: 14em;
+  margin-bottom: 50px;
+  margin-top: 20px;
+  @media (max-width: 768px) {
+    margin-left: 0;
+    padding: 10px;
+  }
+  .p1 {
+    color: #565c71;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .graphDiv {
+    height: 300px;
+    width: fit-content;
+    display: flex;
+    margin-top: 10px;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 8px #1a1b231a;
+    -webkit-box-shadow: 0px 0px 8px rgba(26, 27, 35, 0.1);
+    -moz-box-shadow: 0px 0px 8px rgba(26, 27, 35, 0.1);
+
+    @media (max-width: 870px) {
+      width: 95%;
+    }
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+
+    overflow-x: auto;
+
+    .lineGraph {
+      padding: 20px;
+      width: 600px !important;
+      height: 300px !important;
+      @media (max-width: 870px) {
+        width: 100% !important;
+      }
+      @media (max-width: 500px) {
+        padding: 5px;
+      }
+    }
+  }
+  .visitParentDiv {
+    display: flex;
+    width: 95%;
+    margin-top: 20px;
+    column-gap: 15px;
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+    @media (max-width: 550px) {
+      flex-direction: column;
+    }
+    .lastvisitDiv {
+      width: 50%;
+      max-height: 400px;
+      overflow-y: auto;
+
+      @media (max-width: 550px) {
+        width: 100%;
+      }
+    }
+    .mostvisitedDiv {
+      width: 50%;
+      max-height: 400px;
+      overflow-y: auto;
+      @media (max-width: 550px) {
+        margin-top: 15px;
+        width: 100%;
+      }
+    }
+  }
+}
+@media (max-width: 500px) {
+  #analytics .graphDiv {
+    overflow-x: auto;
+  }
+}
+/*<------------------------------------------------User:Analytics End------------------------------------------------>*/
+
+/*<------------------------------------------------User:visitbox Start------------------------------------------------>*/
+
+#visitbox {
+  display: flex;
+
+  align-items: center;
+  background: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px #1a1b231a;
+  height: 45px;
+  margin-top: 10px;
+  .propertyimg {
+    border-radius: 50%;
+    width: 37px;
+    height: 37px;
+  }
+  .visitboxParentDiv {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-left: 10px;
+  }
+  .visitboxd1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    h1 {
+      color: #565c71;
+      font-size: 14px;
+    }
+    p {
+      color: #565c71a6;
+      font-size: 12px;
+    }
+  }
+
+  .visitboxd2 {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-top: 5px;
+    h1 {
+      color: #565c71;
+      font-size: 14px;
+    }
+    p {
+      color: #565c71a6;
+      font-size: 12px;
+    }
+    .span1 {
+      display: flex;
+      align-items: center;
+      .fa-clock,
+      .fa-trophy {
+        color: #565c71a8;
+        font-size: 12px;
+        margin-right: 5px;
+      }
+      p {
+        color: #565c71;
+      }
+    }
+    .span2 {
+      display: flex;
+      align-items: center;
+      margin-left: 20px;
+
+      .fa-location-dot,
+      .fa-eye {
+        color: #565c71a8;
+        font-size: 12px;
+        margin-right: 5px;
+      }
+      p {
+        color: #565c71;
+      }
+    }
+  }
+}
+
+/*<------------------------------------------------User:visitbox End------------------------------------------------>*/
+
+/*<------------------------------------------------User:Help Start------------------------------------------------>*/
+#help {
+  display: flex;
+  flex-direction: column;
+  max-width: 1600px;
+  margin-left: 14em;
+  margin-bottom: 50px;
+  margin-top: 20px;
+  @media (max-width: 768px) {
+    margin-left: 0;
+    padding: 10px;
+  }
+  .videoParentDiv {
+    display: flex;
+    column-gap: 10px;
+    row-gap: 10px;
+    width: 98%;
+    flex-wrap: wrap;
+    margin: 0 auto;
+  }
+  .videoDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    background: #fff;
+    width: 30%;
+    padding: 10px;
+    box-shadow: 0 1px 8px #2a356b66;
+    min-width: 305px;
+    @media (max-width: 1240px) {
+      width: 45%;
+    }
+    @media (max-width: 900px) {
+      width: 100%;
+    }
+    @media (max-width: 350px) {
+      min-width: auto;
+    }
+    h1 {
+      color: var(--primary-color);
+      font-weight: 600;
+      font-size: 22px;
+    }
+    p {
+      color: #565c71;
+      font-weight: 500;
+      margin-top: 15px;
+      text-align: center;
+    }
+    #video {
+      border-radius: 12px;
+      width: auto;
+      margin-top: 15px;
+      height: 200px;
+      @media (max-width: 900px) {
+        width: 450px;
+        height: 300px;
+      }
+      @media (max-width: 500px) {
+        width: 350px;
+        height: 300px;
+      }
+      @media (max-width: 400px) {
+        width: 250px;
+        height: 200px;
+      }
+    }
+  }
+  .questionDiv {
+    width: 98%;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    background: #fff;
+    margin-top: 22px;
+    box-shadow: 0 1px 8px #2a356b66;
+    border-radius: 10px;
+    h1 {
+      color: var(--secondary-color);
+      font-size: 22px;
+      margin: 15px 0 0 20px;
+    }
+  }
+}
+
+/*<------------------------------------------------User:Help End------------------------------------------------>*/
+
+/*<------------------------------------------------User:QuestionDiv Start------------------------------------------------>*/
+#questionDiv {
+  margin-bottom: 10px;
+
+  display: flex;
+  flex-direction: column;
+  .qaccordDiv {
+    /*  width: 100%; */
+    p {
+      color: var(--secondary-color);
+      font-weight: 600;
+    }
+  }
+  .qaccorddetailDiv {
+    background-color: #d6d9db7f;
+    padding: 15px;
+    p {
+      color: var(--secondary-color);
+      font-weight: 500;
+    }
+  }
+}
+
+/*<------------------------------------------------User:QuestionDiv End------------------------------------------------>*/
