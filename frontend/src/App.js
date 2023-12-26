@@ -17,6 +17,7 @@ import Properties from "./userPages/Properties";
 import Videocalls from "./userPages/Videocalls";
 import Analytics from "./userPages/Analytics";
 import Help from "./userPages/Help";
+import IndividualProperty from "./userPages/IndividualProperty";
 const App = () => {
   return (
     <>
@@ -48,6 +49,8 @@ const App = () => {
 
           <Route exact path="/" element={<Navigate replace to="/login" />} />
           <Route exact path="/properties" element={<Properties />} />
+          <Route exact path="/property/:id" element={<IndividualProperty />} />
+
           <Route exact path="/videocalls" element={<Videocalls />} />
           <Route exact path="/analytics" element={<Analytics />} />
           <Route exact path="/help" element={<Help />} />

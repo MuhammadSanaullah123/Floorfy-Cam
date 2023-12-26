@@ -26,17 +26,17 @@ const Help = () => {
             virtual tours automatically.
           </p>
           <YouTube
-            videoId="p6bT2x7yMUA"
+            videoId="6K_kspdSTN4"
             options={options}
             /*  onReady={this._onReady} */
             id="video"
           />
         </div>
         <div className="videoDiv">
-          <h1>How does it work?</h1>
+          <h1>How to virtualize properties</h1>
           <p>
-            With the following video or the quick guide, learn how to create
-            virtual tours automatically.
+            Learn how to virtualize your properties with the following video or
+            the quick guide.
           </p>
           <YouTube
             videoId="p6bT2x7yMUA"
@@ -46,10 +46,10 @@ const Help = () => {
           />
         </div>
         <div className="videoDiv">
-          <h1>How does it work?</h1>
+          <h1>PDF manual</h1>
           <p>
-            With the following video or the quick guide, learn how to create
-            virtual tours automatically.
+            Explore our manual explaining step by step how to virtualize a
+            property.
           </p>
           <YouTube
             videoId="p6bT2x7yMUA"

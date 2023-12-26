@@ -177,7 +177,7 @@ const TutorialModal = ({ content, modalOpen, setModalOpen }) => {
                   <p>Download on the App Store</p>
                 </div>
                 <div className="downloadDiv">
-                  <i class="fa-brands fa-google-play fa-apple"></i>
+                  <i className="fa-brands fa-google-play fa-apple"></i>
                   <p>Download on Google Play</p>
                 </div>
               </div>

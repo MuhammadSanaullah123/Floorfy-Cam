@@ -12,7 +12,7 @@ const Sidebar = () => {
         onClick={() => navigate("/home")}
       >
         <i
-          className={`fa-solid fa-table-cells-large  ${
+          className={`fa-solid fa-globe  ${
             currentPage === "/home" ? "sideIconSelected" : "sideIcon"
           }`}
         ></i>
