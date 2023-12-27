@@ -13,6 +13,25 @@ const Profile = () => {
   const [hashrender, setHashRender] = useState(false);
   const [logo, setLogo] = useState("");
 
+  const [values, setValues] = useState({
+    company_name: "",
+    email: "",
+    web: "",
+    coin: "",
+    phone: "",
+    contact_name: "",
+    language: "",
+    areaUnit: "",
+  });
+  const handleInput = (e) => {
+    const Value = e.target.value;
+
+    setValues((prevValues) => ({
+      ...prevValues,
+      [e.target.name]: Value,
+    }));
+  };
+  console.log(values);
   let hash = window.location.hash;
   return (
     <div id="profile">
@@ -68,15 +87,33 @@ const Profile = () => {
             <div className="profileMainDivinput1">
               <span>
                 <p>Company name</p>
-                <input type="text" name="company_name" placeholder="New name" />
+                <input
+                  type="text"
+                  name="company_name"
+                  placeholder="New name"
+                  value={values.company_name}
+                  onChange={handleInput}
+                />
               </span>
               <span>
                 <p>Email</p>
-                <input type="text" name="email" placeholder="xyz@gmail.com" />
+                <input
+                  type="text"
+                  name="email"
+                  placeholder="xyz@gmail.com"
+                  value={values.email}
+                  onChange={handleInput}
+                />
               </span>
               <span>
                 <p>Web</p>
-                <input type="text" name="company_name" placeholder="New web" />
+                <input
+                  type="text"
+                  name="web"
+                  placeholder="New web"
+                  value={values.web}
+                  onChange={handleInput}
+                />
               </span>
               <span>
                 <p>Coin</p>
@@ -86,8 +123,8 @@ const Profile = () => {
                   style={{
                     marginRight: "20px",
                   }}
-                  /*   value={values.coin}
-            onChange={handleInput} */
+                  value={values.coin}
+                  onChange={handleInput}
                 >
                   <option value="pkr">PKR</option>
                   <option value="aed">AED - Dirham</option>
@@ -98,7 +135,13 @@ const Profile = () => {
             <div className="profileMainDivinput2">
               <span>
                 <p>Phone</p>
-                <input type="text" name="phone" placeholder="New phone" />
+                <input
+                  type="text"
+                  name="phone"
+                  placeholder="New phone"
+                  value={values.phone}
+                  onChange={handleInput}
+                />
               </span>
               <span>
                 <p>Contact name</p>
@@ -106,6 +149,8 @@ const Profile = () => {
                   type="text"
                   name="contact_name"
                   placeholder="Contact name"
+                  value={values.contact_name}
+                  onChange={handleInput}
                 />
               </span>
               <span>
@@ -116,8 +161,8 @@ const Profile = () => {
                   /*      style={{
               marginRight: "20px",
             }} */
-                  /*   value={values.coin}
-            onChange={handleInput} */
+                  value={values.language}
+                  onChange={handleInput}
                 >
                   <option value="english">English</option>
                   <option value="italiano">Italiano</option>
@@ -125,19 +170,18 @@ const Profile = () => {
                 </select>
               </span>
               <span>
-                <p>Coin</p>
+                <p>Area unit</p>
                 <select
-                  name="coin"
+                  name="areaUnit"
                   className="selectInput"
-                  /* style={{
-              marginRight: "20px",
-            }} */
-                  /*   value={values.coin}
-            onChange={handleInput} */
+                  style={{
+                    marginRight: "20px",
+                  }}
+                  value={values.areaUnit}
+                  onChange={handleInput}
                 >
-                  <option value="pkr">PKR</option>
-                  <option value="aed">AED - Dirham</option>
-                  <option value="sar">SAR - Riyal</option>
+                  <option value="feet">Square feet (ft²)</option>
+                  <option value="meters">Square meters (m²)</option>
                 </select>
               </span>
             </div>
