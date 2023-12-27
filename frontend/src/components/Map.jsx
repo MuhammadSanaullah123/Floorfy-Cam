@@ -30,7 +30,7 @@ const AnyReactComponent = () => (
   </div>
 );
 
-const Map = () => {
+const Map = ({ setValues, handleInput, values }) => {
   const [user, setUser] = useState({
     companylocation: {
       lat: null,
@@ -40,18 +40,18 @@ const Map = () => {
   const [marker, setMarker] = useState(null);
   const defaultProps = {
     center: {
-      lat: 23.424076, // Default latitude for UAE
-      lng: 53.847818, // Default longitude for UAE
+      lat: 23.8859, // Default latitude for KSA
+      lng: 45.0792, // Default longitude for KSA
     },
-    zoom: 7,
+    zoom: 6,
   };
   /*   const [dynamicCenter, setDynamicCenter] = useState(defaultProps.center); */
   const [mapOptions, setMapOptions] = useState({
     center: {
-      lat: 23.424076, // Default latitude for UAE
-      lng: 53.847818, // Default longitude for UAE
+      lat: 23.8859, // Default latitude for KSA
+      lng: 45.0792, // Default longitude for KSA
     },
-    zoom: 7,
+    zoom: 6,
   });
   const handleMapClick = (event) => {
     const newMarker = {
@@ -60,6 +60,7 @@ const Map = () => {
     };
 
     setMarker(newMarker);
+    setValues({ ...values, location: newMarker });
 
     // Extract information about the marker
     console.log("Latitude:", newMarker.lat);
@@ -70,7 +71,7 @@ const Map = () => {
   /*   console.log("likeLikeOO", userDataStore); */
 
   const [address, setAddress] = useState("");
-  console.log(address);
+  /*   console.log(address); */
 
   const handleAddress = async () => {
     try {
@@ -94,6 +95,10 @@ const Map = () => {
       });
       console.log("Latitude:", newMarker.lat);
       console.log("Longitude:", newMarker.lng);
+      console.log("NNNNNNN");
+      console.log(marker);
+
+      setValues({ ...values, address: address, location: newMarker });
     } catch (error) {
       console.error(error);
     }
@@ -175,7 +180,9 @@ const Map = () => {
           }}
         >
           <Checkbox
-            /*    disabled={disableDiv} */
+            name="ishideLocation"
+            checked={values.ishideLocation}
+            onChange={handleInput}
             sx={{
               "& .MuiSvgIcon-root": { fontSize: 18 },
               "&.Mui-checked": {

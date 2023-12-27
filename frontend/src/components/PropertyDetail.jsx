@@ -5,6 +5,33 @@ import Map from "./Map";
 //mui
 import Checkbox from "@mui/material/Checkbox";
 const PropertyDetail = () => {
+  const [values, setValues] = useState({
+    title: "",
+    type: "",
+    adType: "",
+    areaUnit: "",
+    surface: "",
+    coin: "",
+    price: "",
+    description: "",
+    externalId: "",
+    agent: "",
+    address: "",
+    location: {},
+    isshowPropertyDetails: true,
+    isenableWaterMark: true,
+    ishideLocation: false,
+  });
+
+  const handleInput = (e) => {
+    const { name, checked, value } = e.target;
+
+    setValues((prevValues) => ({
+      ...prevValues,
+      [name]: checked !== undefined ? checked : value,
+    }));
+  };
+  console.log(values);
   return (
     <div id="propertyDetail">
       <span className="propertydetailspan1">
@@ -26,16 +53,24 @@ const PropertyDetail = () => {
       <div className="propertyDetailmainDiv">
         <div className="propertyDetailDiv1">
           <p>Property title</p>
-          <input type="text" name="title" placeholder="3D Tour Demo" />
+          <input
+            type="text"
+            name="title"
+            placeholder="3D Tour Demo"
+            value={values.title}
+            onChange={handleInput}
+          />
           <div className="selectDiv">
             <span className="span1">
               <p>Property type</p>
               <select
-                name="country"
+                name="type"
                 className="selectInput"
                 style={{
                   marginRight: "20px",
                 }}
+                value={values.type}
+                onChange={handleInput}
               >
                 <option value="house">House</option>
                 <option value="flat">Flat</option>
@@ -45,13 +80,15 @@ const PropertyDetail = () => {
               </select>
             </span>
             <span className="span1">
-              <p>Area unit</p>
+              <p>Ad type</p>
               <select
-                name="country"
+                name="adType"
                 className="selectInput"
                 style={{
                   marginRight: "20px",
                 }}
+                value={values.adType}
+                onChange={handleInput}
               >
                 <option value="sale">Sale</option>
                 <option value="rental">Rental</option>
@@ -60,13 +97,15 @@ const PropertyDetail = () => {
               </select>
             </span>
             <span className="span1">
-              <p>Ad type</p>
+              <p>Area unit</p>
               <select
-                name="country"
+                name="areaUnit"
                 className="selectInput"
                 style={{
                   marginRight: "20px",
                 }}
+                value={values.areaUnit}
+                onChange={handleInput}
               >
                 <option value="feet">Square feet (ft²)</option>
                 <option value="meters">Square meters (m²)</option>
@@ -74,18 +113,26 @@ const PropertyDetail = () => {
             </span>
             <span className="span1">
               <p>Surface</p>
-              <input type="text" name="surface" placeholder="123" />
+              <input
+                type="text"
+                name="surface"
+                placeholder="123"
+                value={values.surface}
+                onChange={handleInput}
+              />
             </span>
           </div>
           <div className="priceDiv">
             <span className="span1">
               <p>Coin</p>
               <select
-                name="country"
+                name="coin"
                 className="selectInput"
                 style={{
                   marginRight: "20px",
                 }}
+                value={values.coin}
+                onChange={handleInput}
               >
                 <option value="pkr">PKR</option>
                 <option value="aed">AED - Dirham</option>
@@ -94,7 +141,13 @@ const PropertyDetail = () => {
             </span>
             <span className="span1">
               <p>Price</p>
-              <input type="text" name="price" placeholder="100" />
+              <input
+                type="text"
+                name="price"
+                placeholder="100"
+                value={values.price}
+                onChange={handleInput}
+              />
             </span>
           </div>
           <span className="textareaspan">
@@ -105,6 +158,8 @@ const PropertyDetail = () => {
               cols="30"
               rows="10"
               placeholder=" Beautiful home in xyz..."
+              value={values.description}
+              onChange={handleInput}
             ></textarea>
           </span>
 
@@ -118,11 +173,18 @@ const PropertyDetail = () => {
                 style={{
                   marginRight: "20px",
                 }}
+                value={values.email}
+                onChange={handleInput}
               />
             </span>
             <span className="span1">
               <p>Agent</p>
-              <select name="country" className="selectInput">
+              <select
+                name="agent"
+                className="selectInput"
+                value={values.agent}
+                onChange={handleInput}
+              >
                 <option value="no">No</option>
                 <option value="yes">Yes</option>
               </select>
@@ -131,8 +193,9 @@ const PropertyDetail = () => {
 
           <div className="checkboxDiv">
             <Checkbox
-              defaultChecked
-              /*    disabled={disableDiv} */
+              name="isshowPropertyDetails"
+              checked={values.isshowPropertyDetails}
+              onChange={handleInput}
               sx={{
                 "& .MuiSvgIcon-root": { fontSize: 18 },
                 "&.Mui-checked": {
@@ -144,8 +207,9 @@ const PropertyDetail = () => {
           </div>
           <div className="checkboxDiv">
             <Checkbox
-              defaultChecked
-              /*    disabled={disableDiv} */
+              name="isenableWaterMark"
+              checked={values.isenableWaterMark}
+              onChange={handleInput}
               sx={{
                 "& .MuiSvgIcon-root": { fontSize: 18 },
                 "&.Mui-checked": {
@@ -158,7 +222,11 @@ const PropertyDetail = () => {
         </div>
 
         <div className="propertyDetailDiv2">
-          <Map />
+          <Map
+            setValues={setValues}
+            values={values}
+            handleInput={handleInput}
+          />
         </div>
       </div>
     </div>

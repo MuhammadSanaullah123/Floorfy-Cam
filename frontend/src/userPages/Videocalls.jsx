@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 //assets
 import videocallsimg from "../assets/videocalls.svg";
 import openhouseimg from "../assets/openhouse.svg";
+//components
+import VideoCallDiv from "../components/VideoCallDiv";
 
 const Videocalls = () => {
   const [hashrender, setHashRender] = useState(false);
@@ -33,7 +35,16 @@ const Videocalls = () => {
           </p>
         </Link>
       </div>
-      <div className="noContentDiv">
+
+      {hash === "#videocalls" && <VideoCallDiv />}
+      {hash === "#videocalls" && <VideoCallDiv />}
+      {hash === "#videocalls" && <VideoCallDiv />}
+
+      {hash === "#openhouses" && <VideoCallDiv />}
+      {hash === "#openhouses" && <VideoCallDiv />}
+      {hash === "#openhouses" && <VideoCallDiv />}
+
+      {/*  <div className="noContentDiv">
         <img
           src={hash !== "#openhouses" ? videocallsimg : openhouseimg}
           alt=""
@@ -47,6 +58,7 @@ const Videocalls = () => {
 
         <Link to="/properties#active">Go to My Properties</Link>
       </div>
+ */}
     </div>
   );
 };

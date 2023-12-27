@@ -14,6 +14,7 @@ import image2 from "../assets/images2.jpg";
 import image3 from "../assets/images3.jpg";
 //components
 import PropertyDetail from "../components/PropertyDetail";
+import PropertyStatistics from "../components/PropertyStatistics";
 
 const IndividualProperty = () => {
   const [hashrender, setHashRender] = useState(false);
@@ -248,6 +249,7 @@ const IndividualProperty = () => {
         </div>
       )}
       {hash === "#details" && <PropertyDetail />}
+      {hash === "#statistics" && <PropertyStatistics />}
     </div>
   );
 };

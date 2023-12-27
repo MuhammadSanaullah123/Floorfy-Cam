@@ -87,7 +87,7 @@ const Header = () => {
               </span>
               <span className="emailSpan">
                 <p>test@gmail.com</p>
-                <Link>Edit Profile</Link>
+                <Link to="/profile">Edit Profile</Link>
               </span>
             </div>
             <div

@@ -18,6 +18,8 @@ import Videocalls from "./userPages/Videocalls";
 import Analytics from "./userPages/Analytics";
 import Help from "./userPages/Help";
 import IndividualProperty from "./userPages/IndividualProperty";
+import Profile from "./userPages/Profile";
+
 const App = () => {
   return (
     <>
@@ -33,15 +35,7 @@ const App = () => {
               <Sidebar />
             </>
           )}
-        {/*   {window.location.pathname !== "/signup" &&
-          window.location.pathname !== "/" &&
-          window.location.pathname !== "/login" &&
-          window.location.pathname !== "/forgot-password" &&
-          window.location.pathname.split("/")[1] !== "reset-password" && (
-            <>
-              <Sidebar />
-            </>
-          )} */}
+
         <Routes>
           <Route exact path="/home" element={<Home />} />
           <Route exact path="/login" element={<Login />} />
@@ -54,6 +48,7 @@ const App = () => {
           <Route exact path="/videocalls" element={<Videocalls />} />
           <Route exact path="/analytics" element={<Analytics />} />
           <Route exact path="/help" element={<Help />} />
+          <Route exact path="/profile" element={<Profile />} />
         </Routes>
       </Router>
     </>

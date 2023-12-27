@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 //assets
 import share from "../assets/share.svg";
 import hdimage from "../assets/hdimage.svg";
@@ -6,8 +7,9 @@ import virtualtour from "../assets/virtual_tour.svg";
 import render3d from "../assets/render_3D.svg";
 import floorplan from "../assets/floorplan.svg";
 const TourDemoDiv = () => {
+  const navigate = useNavigate();
   return (
-    <div id="tourdemodiv">
+    <div id="tourdemodiv" onClick={() => navigate("/property/123#content")}>
       <div className="upperDiv">
         <span className="span1">
           <h1>3D Tour Demo</h1>
