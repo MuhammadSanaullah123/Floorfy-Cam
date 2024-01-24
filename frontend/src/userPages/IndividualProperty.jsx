@@ -61,7 +61,10 @@ const IndividualProperty = () => {
           </p>
         </Link>
         <div className="callDiv">
-          <span className="videocallSpan">
+          <span
+            className="videocallSpan"
+            onClick={() => window.open("/lobby/494e56cb97d21544", "_blank")}
+          >
             <i className="fa-solid fa-video"></i>
             <p>{window.screen.width <= "975" ? "Start" : "Start videocall"}</p>
           </span>

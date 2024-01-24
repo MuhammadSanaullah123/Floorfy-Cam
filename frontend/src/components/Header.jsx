@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+//api
+import { useDispatch, useSelector } from "react-redux";
+import { useAuthMutation, useLogoutMutation } from "../slices/usersApiSlice";
+import { setCredentials, clearCredentials } from "../slices/authSlice";
+
 //assets
-import logo from "../assets/logo1.png";
+import logo from "../assets/logo2.png";
 
 //mui
 import InputAdornment from "@mui/material/InputAdornment";
 import OutlinedInput from "@mui/material/OutlinedInput";
+
+//other
+import { toast } from "react-toastify";
 const Header = () => {
   const [mobile, setMobile] = useState(false);
   const [sideBar, setSideBar] = useState(false);
@@ -27,7 +36,34 @@ const Header = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []); */
+  const [auth] = useAuthMutation();
+  const [logout] = useLogoutMutation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handleLogout = async () => {
+    try {
+      await logout().unwrap();
+      dispatch(clearCredentials());
+      setProfile(!profile);
+      window.location.assign("/login");
+    } catch (error) {
+      error.data.errors.forEach((error) => {
+        toast.error(error.msg);
+      });
+    }
+  };
+  const { userInfo } = useSelector((state) => state.auth);
+  const handleAuth = async () => {
+    try {
+      const res = await auth().unwrap();
 
+      dispatch(setCredentials({ ...res }));
+    } catch (error) {
+      error.data.errors.forEach((error) => {
+        toast.error(error.msg);
+      });
+    }
+  };
   const handleMobile = async () => {
     setMobile(!mobile);
     const sidebar = document.getElementById("sideDrawer");
@@ -37,7 +73,11 @@ const Header = () => {
       sidebar.style.display = "block";
     }
   };
-
+  useEffect(() => {
+    if (sessionStorage.userInfo) {
+      handleAuth();
+    }
+  }, []);
   return (
     <div id="header">
       <div id="upperHeader">

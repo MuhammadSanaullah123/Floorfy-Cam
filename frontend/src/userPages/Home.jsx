@@ -319,7 +319,7 @@ const Home = ({ loginComponent }) => {
                   className="checklistDiv"
                   onClick={() => handleDivClick(3)}
                   style={{
-                    marginTop: "10px",
+                    marginBottom: "0px",
                   }}
                 >
                   <i
@@ -431,7 +431,12 @@ const Home = ({ loginComponent }) => {
           >
             LET'S START
           </h1>
-          <div className="homeDiv4">
+          <div
+            className="homeDiv4"
+            style={{
+              height: "261px",
+            }}
+          >
             <div
               id="tourdemodiv"
               className="hometourdemodiv"

@@ -19,38 +19,51 @@ import Analytics from "./userPages/Analytics";
 import Help from "./userPages/Help";
 import IndividualProperty from "./userPages/IndividualProperty";
 import Profile from "./userPages/Profile";
-
+import VideoComponent from "./components/VideoComponent";
+import Lobby from "./components/Lobby";
+import store from "./store";
+import { Provider } from "react-redux";
 const App = () => {
   return (
     <>
-      <Router>
-        <ToastContainer />
-        {window.location.pathname !== "/signup" &&
-          window.location.pathname !== "/" &&
-          window.location.pathname !== "/login" &&
-          window.location.pathname !== "/forgot-password" &&
-          window.location.pathname.split("/")[1] !== "reset-password" && (
-            <>
-              <Header />
-              <Sidebar />
-            </>
-          )}
+      <Provider store={store}>
+        <Router>
+          <ToastContainer />
+          {window.location.pathname !== "/signup" &&
+            window.location.pathname !== "/" &&
+            window.location.pathname !== "/login" &&
+            window.location.pathname !== "/forgot-password" &&
+            window.location.pathname.split("/")[1] !== "lobby" &&
+            window.location.pathname.split("/")[1] !== "video" &&
+            window.location.pathname.split("/")[1] !== "reset-password" && (
+              <>
+                <Header />
+                <Sidebar />
+              </>
+            )}
 
-        <Routes>
-          <Route exact path="/home" element={<Home />} />
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/signup" element={<Signup />} />
+          <Routes>
+            <Route exact path="/home" element={<Home />} />
+            <Route exact path="/login" element={<Login />} />
+            <Route exact path="/signup" element={<Signup />} />
 
-          <Route exact path="/" element={<Navigate replace to="/login" />} />
-          <Route exact path="/properties" element={<Properties />} />
-          <Route exact path="/property/:id" element={<IndividualProperty />} />
+            <Route exact path="/" element={<Navigate replace to="/login" />} />
+            <Route exact path="/properties" element={<Properties />} />
+            <Route
+              exact
+              path="/property/:id"
+              element={<IndividualProperty />}
+            />
+            <Route exact path="/video/:id" element={<VideoComponent />} />
+            <Route exact path="/lobby/:id" element={<Lobby />} />
 
-          <Route exact path="/videocalls" element={<Videocalls />} />
-          <Route exact path="/analytics" element={<Analytics />} />
-          <Route exact path="/help" element={<Help />} />
-          <Route exact path="/profile" element={<Profile />} />
-        </Routes>
-      </Router>
+            <Route exact path="/videocalls" element={<Videocalls />} />
+            <Route exact path="/analytics" element={<Analytics />} />
+            <Route exact path="/help" element={<Help />} />
+            <Route exact path="/profile" element={<Profile />} />
+          </Routes>
+        </Router>
+      </Provider>
     </>
   );
 };
