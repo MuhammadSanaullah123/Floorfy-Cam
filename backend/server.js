@@ -32,7 +32,6 @@ app.use(cookieParser());
 app.use("/api/users", require("./routes/api/users"));
 app.use("/api/auth", require("./routes/api/auth"));
 app.use("/api/conversation", require("./routes/api/conversation"));
-app.use("/api/video", require("./routes/api/video"));
 
 /* const _dirname = path.dirname("");
 const buildPath = path.join(_dirname, "../frontend/build");

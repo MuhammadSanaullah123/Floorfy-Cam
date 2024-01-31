@@ -2836,8 +2836,7 @@
       height: 30px;
       border: 0;
       border-radius: 8px;
-      background-color: var(--secondary-color);
-      opacity: 0.3;
+      background-color: var(--primary-color);
       color: #fff;
       font-family: "Atyp";
       cursor: pointer;
@@ -2910,6 +2909,11 @@
             font-weight: 600;
             text-align: center;
             font-size: 21px;
+          }
+          img {
+            width: inherit;
+            height: inherit;
+            border-radius: 50%;
           }
         }
         .span3 {

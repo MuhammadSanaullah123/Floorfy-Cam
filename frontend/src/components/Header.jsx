@@ -56,7 +56,6 @@ const Header = () => {
   const handleAuth = async () => {
     try {
       const res = await auth().unwrap();
-
       dispatch(setCredentials({ ...res }));
     } catch (error) {
       error.data.errors.forEach((error) => {
@@ -141,15 +140,16 @@ const Header = () => {
               style={{
                 marginRight: "5px",
               }}
+              onClick={() => navigate("/profile#users")}
             >
               <i className="fa-solid fa-user-plus linkIcon linkIconFlip"></i>
               <p>Manage users</p>
             </div>
-            <div className="linkDiv">
+            <div className="linkDiv" onClick={() => navigate("/profile#brand")}>
               <i className="fa-solid fa-tag linkIcon linkIconFlip"></i>
               <p>Customize brand</p>
             </div>
-            <div
+            {/*  <div
               className="hr"
               style={{
                 margin: "0px 0 15px 0",
@@ -167,7 +167,7 @@ const Header = () => {
             <div className="linkDiv">
               <i className="fa-regular fa-credit-card linkIcon"></i>
               <p>Payments</p>
-            </div>
+            </div> */}
             <div
               className="hr"
               style={{
@@ -180,6 +180,7 @@ const Header = () => {
               style={{
                 marginBottom: "0",
               }}
+              onClick={handleLogout}
             >
               <i className="fa-solid fa-arrow-right-from-bracket linkIcon"></i>
               <p>Log out</p>

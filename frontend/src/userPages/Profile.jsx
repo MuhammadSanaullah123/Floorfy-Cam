@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 //assets
@@ -8,21 +8,35 @@ import logo1 from "../assets/brandlogo1.jpg";
 import logo2 from "../assets/brandlogo2.jpg";
 import virtual_tour_eg from "../assets/tourexample.jpg";
 import floorplan1 from "../assets/floorplan1.jpg";
-
+//others
+import { toast } from "react-toastify";
+//api
+import { useDispatch, useSelector } from "react-redux";
+import { setCredentials } from "../slices/authSlice";
+import { useUpdateUserMutation } from "../slices/usersApiSlice";
 const Profile = () => {
   const [hashrender, setHashRender] = useState(false);
   const [logo, setLogo] = useState("");
+  const [updateUser] = useUpdateUserMutation();
+  const { userInfo } = useSelector((state) => state.auth);
 
   const [values, setValues] = useState({
-    company_name: "",
-    email: "",
-    web: "",
-    coin: "",
-    phone: "",
-    contact_name: "",
-    language: "",
-    areaUnit: "",
+    company_name: userInfo ? userInfo.company_name : "",
+    email: userInfo ? userInfo.email : "",
+    web: userInfo ? userInfo.web : "",
+    coin: userInfo ? userInfo.coin : "",
+    phone: userInfo ? userInfo.phone : "",
+    contact_name: userInfo ? userInfo.contact_name : "",
+    language: userInfo ? userInfo.language : "",
+    area_unit: userInfo ? userInfo.area_unit : "",
+    image: userInfo ? userInfo.image : "",
+    password: "",
+    conpassword: "",
   });
+  const [image, setImage] = useState();
+  const [previewImage, setPreviewImage] = useState(null);
+  const dispatch = useDispatch();
+
   const handleInput = (e) => {
     const Value = e.target.value;
 
@@ -33,6 +47,111 @@ const Profile = () => {
   };
   console.log(values);
   let hash = window.location.hash;
+
+  const hiddenFileInput = useRef(null);
+
+  const handleImageClick = () => {
+    hiddenFileInput.current.click();
+  };
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+
+    // Display a preview of the image
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      // Update the preview image source
+      setPreviewImage(reader.result);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    let image_url;
+
+    if (values.password === values.conpassword) {
+      if (image) {
+        const dataImage = new FormData();
+        dataImage.append("file", image);
+        dataImage.append("upload_preset", "u928wexc");
+        dataImage.append("cloud_name", "dihkvficg");
+
+        const res = await fetch(
+          "https://api.cloudinary.com/v1_1/dihkvficg/image/upload",
+          {
+            method: "post",
+            body: dataImage,
+          }
+        );
+
+        const resData = await res.json();
+        image_url = resData.url;
+      }
+      let data;
+      if (image) {
+        data = {
+          email: values.email,
+          password: values.password,
+          company_name: values.company_name,
+          web: values.web,
+          coin: values.coin,
+          phone: values.phone,
+          contact_name: values.contact_name,
+          language: values.language,
+          area_unit: values.area_unit,
+          image: image_url,
+        };
+      } else {
+        data = {
+          email: values.email,
+          password: values.password,
+          company_name: values.company_name,
+          web: values.web,
+          coin: values.coin,
+          phone: values.phone,
+          contact_name: values.contact_name,
+          language: values.language,
+          area_unit: values.area_unit,
+          image: values.image,
+        };
+      }
+
+      try {
+        console.log(data);
+        const res = await updateUser(data).unwrap();
+
+        toast.success("Profile Updated", { position: "top-center" });
+        dispatch(setCredentials({ ...res }));
+      } catch (error) {
+        console.error(error);
+        error.data.errors.forEach((error) => {
+          toast.error(error.msg);
+        });
+      }
+    } else {
+      toast.error("Passwords do not match");
+    }
+  };
+  useEffect(() => {
+    setValues({
+      company_name: userInfo ? userInfo.company_name : "",
+      email: userInfo ? userInfo.email : "",
+      web: userInfo ? userInfo.web : "",
+      coin: userInfo ? userInfo.coin : "",
+      phone: userInfo ? userInfo.phone : "",
+      contact_name: userInfo ? userInfo.contact_name : "",
+      language: userInfo ? userInfo.language : "",
+      area_unit: userInfo ? userInfo.area_unit : "",
+      image: userInfo ? userInfo.image : "",
+      password: "",
+      conpassword: "",
+    });
+  }, [userInfo]);
+
   return (
     <div id="profile">
       <div className="headerDiv">
@@ -75,7 +194,7 @@ const Profile = () => {
         <div className="profileMainDiv">
           <span className="span1">
             <p>Profile data</p>
-            <button>Save changes</button>
+            <button onClick={handleSubmit}>Save changes</button>
           </span>
           <hr
             className="hr"
@@ -120,9 +239,9 @@ const Profile = () => {
                 <select
                   name="coin"
                   className="selectInput"
-                  style={{
+                  /*  style={{
                     marginRight: "20px",
-                  }}
+                  }} */
                   value={values.coin}
                   onChange={handleInput}
                 >
@@ -130,6 +249,16 @@ const Profile = () => {
                   <option value="aed">AED - Dirham</option>
                   <option value="sar">SAR - Riyal</option>
                 </select>
+              </span>
+              <span>
+                <p>Password</p>
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  value={values.password}
+                  onChange={handleInput}
+                />
               </span>
             </div>
             <div className="profileMainDivinput2">
@@ -172,32 +301,62 @@ const Profile = () => {
               <span>
                 <p>Area unit</p>
                 <select
-                  name="areaUnit"
+                  name="area_unit"
                   className="selectInput"
-                  style={{
+                  /*   style={{
                     marginRight: "20px",
-                  }}
-                  value={values.areaUnit}
+                  }} */
+                  value={values.area_unit}
                   onChange={handleInput}
                 >
                   <option value="feet">Square feet (ft²)</option>
                   <option value="meters">Square meters (m²)</option>
                 </select>
               </span>
+
+              <span>
+                <p>Confirm Password</p>
+                <input
+                  type="password"
+                  name="conpassword"
+                  placeholder="Confirm Password"
+                  value={values.conpassword}
+                  onChange={handleInput}
+                />
+              </span>
             </div>
 
-            <div className="logoDiv">
-              <span className="span2">
-                <p>Your logo here</p>
-              </span>
-              <span className="span3">
+            <div className="logoDiv" onClick={handleImageClick}>
+              {previewImage ? (
+                <span className="span2">
+                  <img src={previewImage} alt="profile" className="userImage" />
+                </span>
+              ) : values.image ? (
+                <span className="span2">
+                  <img src={values.image} alt="profile" className="userImage" />
+                </span>
+              ) : (
+                <span className="span2">
+                  <p>Your logo here</p>
+                </span>
+              )}
+
+              <span className="span3" /* onClick={handleImageClick} */>
                 <i className="fa-solid fa-upload"></i>
                 <p>Upload logo</p>
               </span>
+              <input
+                id="file-uploader"
+                ref={hiddenFileInput}
+                style={{ display: "none" }}
+                type="file"
+                onChange={handleFileChange}
+              />
+              <label htmlFor="file-uploader" className="file-label"></label>
             </div>
           </div>
 
-          <button className="passwordBtn">Change password</button>
+          {/*   <button className="passwordBtn">Change password</button> */}
         </div>
       )}
       {hash === "#users" && (

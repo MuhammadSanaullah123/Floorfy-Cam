@@ -216,9 +216,20 @@ router.patch(
 
     try {
       const users = await User.findById(req.user.id);
-      let { name, image, company, email, description, password } = req.body;
+      let {
+        company_name,
+        contact_name,
+        phone,
+        web,
+        image,
+        email,
+        language,
+        coin,
+        area_unit,
+        password,
+      } = req.body;
 
-      if (email !== users.email) {
+      if (email && email !== users.email) {
         const emailCheck = await User.findOne({ email });
         if (emailCheck) {
           return res
@@ -242,9 +253,13 @@ router.patch(
         }
       }
 
-      users.name = name;
-      users.company = company;
-      users.description = description;
+      users.company_name = company_name;
+      users.contact_name = contact_name;
+      users.phone = phone;
+      users.web = web;
+      users.language = language;
+      users.coin = coin;
+      users.area_unit = area_unit;
       users.image = image;
       await users.save();
       const payload = {
@@ -268,11 +283,17 @@ router.patch(
           return res.status(200).json({
             token,
             /* user, */
-            _id: user._id,
-
-            email: user.email,
-
-            role: user.role,
+            _id: users._id,
+            email: users.email,
+            role: users.role,
+            company_name,
+            contact_name,
+            phone,
+            web,
+            language,
+            coin,
+            area_unit,
+            image,
           });
         }
       );

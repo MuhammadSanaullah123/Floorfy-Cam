@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 //api
 import { useDispatch, useSelector } from "react-redux";
-import { useLoginMutation } from "../slices/usersApiSlice";
+import { useLoginMutation, useAuthMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
 //others
 import { toast } from "react-toastify";
@@ -13,6 +13,8 @@ const Login = () => {
     password: "",
   });
   const [login] = useLoginMutation();
+  const [auth] = useAuthMutation();
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
@@ -45,15 +47,31 @@ const Login = () => {
       });
     }
   };
+  const handleAuth = async () => {
+    try {
+      const res = await auth().unwrap();
+      console.log("INSIDE HANDLE AUTH");
+      dispatch(setCredentials({ ...res }));
+    } catch (error) {
+      error.data.errors.forEach((error) => {
+        toast.error(error.msg);
+      });
+    }
+  };
   console.log(userInfo);
   useEffect(() => {
     if (userInfo && userInfo?.role === "user") {
       window.location.assign("/home");
+      console.log("useruseffect");
     }
     if (userInfo && userInfo?.role === "admin") {
       window.location.assign("/admin/dashboard");
+      console.log("adminuseffect");
     }
-  }, [navigate, userInfo]);
+    if (sessionStorage.userInfo) {
+      handleAuth();
+    }
+  }, [userInfo]);
   console.log(values);
   return (
     <div id="loginContainer">
