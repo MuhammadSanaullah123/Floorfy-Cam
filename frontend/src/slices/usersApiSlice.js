@@ -41,6 +41,13 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    updateUserBasic: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/basic/${data.id}`,
+        method: "POST",
+        body: data,
+      }),
+    }),
     getAllUsers: builder.mutation({
       query: () => ({
         url: `${USERS_URL}`,
@@ -76,6 +83,7 @@ export const {
   useLogoutMutation,
   useAuthMutation,
   useUpdateUserMutation,
+  useUpdateUserBasicMutation,
   useGetAllUsersMutation,
   useGetUserByIdMutation,
   useGetResetCodeMutation,

@@ -1,42 +1,149 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 //components
 import Map from "./Map";
 //mui
 import Checkbox from "@mui/material/Checkbox";
+//others
+import { toast } from "react-toastify";
+//api
+import { useDispatch, useSelector } from "react-redux";
+import { setProperty } from "../slices/propertySlice";
+import {
+  useUpdatePropertyMutation,
+  useGetPropertyMutation,
+} from "../slices/propertyApiSlice";
 const PropertyDetail = () => {
+  const dispatch = useDispatch();
+  const { propertyInfo } = useSelector((state) => state.property);
+
   const [values, setValues] = useState({
-    title: "",
-    type: "",
-    adType: "",
-    areaUnit: "",
-    surface: "",
-    coin: "",
-    price: "",
-    description: "",
-    externalId: "",
-    agent: "",
-    address: "",
-    location: {},
-    isshowPropertyDetails: true,
-    isenableWaterMark: true,
-    ishideLocation: false,
+    title: propertyInfo?.property_title ? propertyInfo?.property_title : "",
+    type: propertyInfo?.property_type ? propertyInfo?.property_type : "",
+    adType: propertyInfo?.ad_type ? propertyInfo?.ad_type : "",
+    areaUnit: propertyInfo?.area_unit ? propertyInfo?.area_unit : "",
+    surface: propertyInfo?.surface ? propertyInfo?.surface : "",
+    coin: propertyInfo?.coin ? propertyInfo?.coin : "",
+    price: propertyInfo?.price ? propertyInfo?.price : "",
+    description: propertyInfo?.description ? propertyInfo?.description : "",
+    externalId: propertyInfo?.external_ID ? propertyInfo?.external_ID : "",
+    agent: propertyInfo?.agent ? propertyInfo?.agent : "",
+    address: propertyInfo?.address ? propertyInfo?.address : "",
+    location: propertyInfo?.location ? propertyInfo?.location : {},
+
+    isshowPropertyDetails: propertyInfo?.showDetails
+      ? propertyInfo?.showDetails
+      : true,
+    isenableWaterMark: propertyInfo?.enableWatermark
+      ? propertyInfo?.enableWatermark
+      : true,
+    ishideLocation: propertyInfo?.hideExactLocation
+      ? propertyInfo?.hideExactLocation
+      : false,
   });
+  const [updateProperty] = useUpdatePropertyMutation();
+  const [getProperty] = useGetPropertyMutation();
+
+  const { userInfo } = useSelector((state) => state.auth);
 
   const handleInput = (e) => {
-    const { name, checked, value } = e.target;
-
+    const { name, value } = e.target;
     setValues((prevValues) => ({
       ...prevValues,
-      [name]: checked !== undefined ? checked : value,
+      [name]: value,
     }));
   };
+  const handleCheckboxChange = (e) => {
+    const { name, checked } = e.target;
+    setValues((prevValues) => ({
+      ...prevValues,
+      [name]: checked,
+    }));
+  };
+
   console.log(values);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    let id = window.location.pathname.split("/")[2];
+    let data = {
+      user_id: userInfo._id,
+      tour_id: id,
+      property_title: values.title,
+      property_type: values.type,
+      ad_type: values.adType,
+      area_unit: values.areaUnit,
+      surface: values.surface,
+      coin: values.coin,
+      price: values.price,
+      description: values.description,
+      external_ID: values.externalId,
+      agent: values.agent,
+      address: values.address.label,
+      location: values.location,
+      showDetails: values.isshowPropertyDetails,
+      enableWatermark: values.isenableWaterMark,
+      hideExactLocation: values.ishideLocation,
+    };
+
+    try {
+      const res = await updateProperty(data).unwrap();
+      toast.success("Property Updated", { position: "top-center" });
+
+      dispatch(setProperty({ ...res }));
+    } catch (error) {
+      console.error(error);
+      toast.error(error.msg);
+    }
+  };
+
+  const handleGetProperty = async () => {
+    let id = window.location.pathname.split("/")[2];
+
+    try {
+      const res = await getProperty(id).unwrap();
+
+      dispatch(setProperty({ ...res }));
+    } catch (error) {
+      console.error(error);
+      toast.error(error.msg);
+    }
+  };
+
+  useEffect(() => {
+    setValues({
+      title: propertyInfo?.property_title ? propertyInfo?.property_title : "",
+      type: propertyInfo?.property_type ? propertyInfo?.property_type : "",
+      adType: propertyInfo?.ad_type ? propertyInfo?.ad_type : "",
+      areaUnit: propertyInfo?.area_unit ? propertyInfo?.area_unit : "",
+      surface: propertyInfo?.surface ? propertyInfo?.surface : "",
+      coin: propertyInfo?.coin ? propertyInfo?.coin : "",
+      price: propertyInfo?.price ? propertyInfo?.price : "",
+      description: propertyInfo?.description ? propertyInfo?.description : "",
+      externalId: propertyInfo?.external_ID ? propertyInfo?.external_ID : "",
+      agent: propertyInfo?.agent ? propertyInfo?.agent : "",
+      address: propertyInfo?.address ? propertyInfo?.address : "",
+      location: propertyInfo?.location ? propertyInfo?.location : {},
+      isshowPropertyDetails: propertyInfo?.showDetails
+        ? propertyInfo?.showDetails
+        : true,
+      isenableWaterMark: propertyInfo?.enableWatermark
+        ? propertyInfo?.enableWatermark
+        : true,
+      ishideLocation: propertyInfo?.hideExactLocation
+        ? propertyInfo?.hideExactLocation
+        : false,
+    });
+  }, [propertyInfo]);
+  useEffect(() => {
+    handleGetProperty();
+  }, []);
+
+  console.log("propertyInfo", propertyInfo);
   return (
     <div id="propertyDetail">
       <span className="propertydetailspan1">
         <h1>Internal Details</h1>
-        <button>Save</button>
+        <button onClick={handleSubmit}>Save</button>
       </span>
       <span className="propertydetailspan2">
         <p>Tour not published</p>
@@ -168,7 +275,7 @@ const PropertyDetail = () => {
               <p>External ID</p>
               <input
                 type="text"
-                name="email"
+                name="externalId"
                 placeholder="xyz@gmail.com"
                 style={{
                   marginRight: "20px",
@@ -195,7 +302,7 @@ const PropertyDetail = () => {
             <Checkbox
               name="isshowPropertyDetails"
               checked={values.isshowPropertyDetails}
-              onChange={handleInput}
+              onChange={handleCheckboxChange}
               sx={{
                 "& .MuiSvgIcon-root": { fontSize: 18 },
                 "&.Mui-checked": {
@@ -209,7 +316,7 @@ const PropertyDetail = () => {
             <Checkbox
               name="isenableWaterMark"
               checked={values.isenableWaterMark}
-              onChange={handleInput}
+              onChange={handleCheckboxChange}
               sx={{
                 "& .MuiSvgIcon-root": { fontSize: 18 },
                 "&.Mui-checked": {
@@ -225,7 +332,7 @@ const PropertyDetail = () => {
           <Map
             setValues={setValues}
             values={values}
-            handleInput={handleInput}
+            handleInput={handleCheckboxChange}
           />
         </div>
       </div>

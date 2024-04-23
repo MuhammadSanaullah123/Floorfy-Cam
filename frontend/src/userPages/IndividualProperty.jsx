@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 //assets
@@ -15,12 +15,36 @@ import image3 from "../assets/images3.jpg";
 //components
 import PropertyDetail from "../components/PropertyDetail";
 import PropertyStatistics from "../components/PropertyStatistics";
-
+//api
+import { useDispatch, useSelector } from "react-redux";
+import { setTour } from "../slices/tourSlice";
+import { useGetTourMutation } from "../slices/tourApiSlice";
+//others
+import { toast } from "react-toastify";
 const IndividualProperty = () => {
+  const dispatch = useDispatch();
+
   const [hashrender, setHashRender] = useState(false);
   const [content, setContent] = useState("virtual_tour");
+  const [getTour] = useGetTourMutation();
+  const { tourInfo } = useSelector((state) => state.tour);
 
   let hash = window.location.hash;
+  console.log(tourInfo);
+  const handleGetTour = async () => {
+    try {
+      let id = window.location.pathname.split("/")[2];
+      const res = await getTour(id).unwrap();
+
+      dispatch(setTour({ ...res }));
+    } catch (error) {
+      console.error(error);
+      toast.error(error.msg);
+    }
+  };
+  useEffect(() => {
+    handleGetTour();
+  }, []);
   return (
     <div id="individualproperty">
       <span className="span1">
@@ -171,10 +195,36 @@ const IndividualProperty = () => {
             {content === "virtual_tour" && (
               <div className="contentvirtualtourDiv">
                 {/*  <img src={tour_eg} alt="" /> */}
+                <iframe
+                  id="embed_iframe_box"
+                  src="http://13.232.6.248/cms4vr/link/6622a21cde4d3"
+                  scrolling="no"
+                  frameborder="0"
+                  allowvr="yes"
+                  allow="vr; xr; accelerometer; magnetometer; gyroscope; autoplay;"
+                  allowfullscreen
+                  mozallowfullscreen="true"
+                  webkitallowfullscreen="true"
+                  width="100%"
+                  height="100%"
+                  title="Virtual Tour"
+                ></iframe>
               </div>
             )}
             {content === "dollhouse" && (
-              <div className="contentdollhouseDiv"></div>
+              <div className="contentdollhouseDiv">
+                <iframe
+                  title="Floorfy Viewer"
+                  width="100%"
+                  height="100%"
+                  src="https://floorfy.com/tour/1987195?play=no&galleryOpen=no"
+                  frameborder="0"
+                  scrolling="no"
+                  allowfullscreen="true"
+                  webkitallowfullscreen="true"
+                  mozallowfullscreen="true"
+                ></iframe>
+              </div>
             )}
             {content === "floorplan" && (
               <div className="contentfloorplanDiv">
@@ -216,7 +266,10 @@ const IndividualProperty = () => {
                   </span>
                 </div>
                 <div className="contentimagesDiv2">
-                  <img src={image1} alt="" />
+                  {tourInfo?.images?.map((image, index) => (
+                    <img src={image} alt="" key={index} />
+                  ))}
+                  {/*  <img src={image1} alt="" />
                   <img src={image2} alt="" />
                   <img src={image3} alt="" />
                   <img src={image1} alt="" />
@@ -233,7 +286,7 @@ const IndividualProperty = () => {
                   <img src={image3} alt="" />
                   <img src={image1} alt="" />
                   <img src={image2} alt="" />
-                  <img src={image3} alt="" />
+                  <img src={image3} alt="" /> */}
                 </div>
               </div>
             )}

@@ -10,11 +10,35 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 
 //components
 import TourDemoDiv from "../components/TourDemoDiv";
-
+//api
+import { useDispatch, useSelector } from "react-redux";
+import { setAllTour } from "../slices/tourSlice";
+import { useGetAllTourMutation } from "../slices/tourApiSlice";
+//others
+import { toast } from "react-toastify";
 const Properties = () => {
+  const dispatch = useDispatch();
+
   const [hashrender, setHashRender] = useState(false);
   let hash = window.location.hash;
   const navigate = useNavigate();
+  const [getAllTours] = useGetAllTourMutation();
+  const { tourInfo } = useSelector((state) => state.tour);
+
+  const handleGetTours = async () => {
+    try {
+      const res = await getAllTours().unwrap();
+
+      dispatch(setAllTour({ ...res }));
+    } catch (error) {
+      console.error(error);
+      toast.error(error.msg);
+    }
+  };
+  useEffect(() => {
+    handleGetTours();
+  }, []);
+  console.log(tourInfo);
   return (
     <div id="properties">
       <h1 className="propertiesh1">Properties</h1>
@@ -103,10 +127,9 @@ const Properties = () => {
           <img src={tour360} alt="" className="worldImg" />
           <p>Create new tour</p>
         </div>
-        <TourDemoDiv />
-        <TourDemoDiv />
-
-        <TourDemoDiv />
+        {tourInfo?.map((tour, index) => (
+          <TourDemoDiv tour={tour} key={index} />
+        ))}
       </div>
       <div className="resultDiv">
         <p>Showing 3 results</p>

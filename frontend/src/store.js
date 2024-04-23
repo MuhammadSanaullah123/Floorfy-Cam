@@ -1,13 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./slices/authSlice";
-import documentReducer from "./slices/documentSlice";
+import propertyReducer from "./slices/propertySlice";
+import tourReducer from "./slices/tourSlice";
 
 import { apiSlice } from "./slices/apiSlice";
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
-    document: documentReducer,
+    property: propertyReducer,
+    tour: tourReducer,
 
     [apiSlice.reducerPath]: apiSlice.reducer,
   },

@@ -39,6 +39,31 @@ const UserSchema = new mongoose.Schema(
     image: {
       type: String,
     },
+
+    basic1: {
+      type: Boolean,
+      default: false,
+    },
+    basic2: {
+      type: Boolean,
+      default: false,
+    },
+    basic3: {
+      type: Boolean,
+      default: false,
+    },
+    basic4: {
+      type: Boolean,
+      default: false,
+    },
+    basic5: {
+      type: Boolean,
+      default: false,
+    },
+    basic6: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

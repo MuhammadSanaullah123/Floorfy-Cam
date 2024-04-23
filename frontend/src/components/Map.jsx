@@ -157,10 +157,13 @@ const Map = ({ setValues, handleInput, values }) => {
           center={
             address
               ? mapOptions.center
-              : !address && !user?.companylocation.lat
+              : !address && !values?.location.lat
               ? mapOptions.center
-              : user?.companylocation.lat
-              ? user.companylocation
+              : values?.location.lat
+              ? {
+                  lat: parseFloat(values?.location.lat),
+                  lng: parseFloat(values?.location.lng),
+                }
               : mapOptions.center
           }
           /*    center={
@@ -168,7 +171,7 @@ const Map = ({ setValues, handleInput, values }) => {
                     ? user.companylocation
                     : mapOptions.center
                 } */
-          zoom={user?.companylocation?.lat ? 15 : mapOptions.zoom}
+          zoom={values?.location?.lat ? 15 : mapOptions.zoom}
           onClick={handleMapClick}
         >
           {marker && <AnyReactComponent lat={marker.lat} lng={marker.lng} />}

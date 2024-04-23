@@ -261,6 +261,7 @@ router.patch(
       users.coin = coin;
       users.area_unit = area_unit;
       users.image = image;
+
       await users.save();
       const payload = {
         user: {
@@ -315,6 +316,56 @@ router.get("/:id", auth, async (req, res) => {
       return res.status(404).json({ msg: "Users not found" });
     }
 
+    res.status(200).json(users);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+// @desc    Update the Basic Knowledge
+// @route   POST /api/users/basic/:id
+// @access  Private
+router.post("/basic/:id", auth, async (req, res) => {
+  let { basic, basicType } = req.body;
+  try {
+    const users = await User.findById(req.params.id).select("-password");
+
+    if (!users) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+    switch (basicType) {
+      case "basic1":
+        users.basic1 = basic;
+        break;
+      case "basic2":
+        users.basic2 = basic;
+        break;
+
+      case "basic3":
+        users.basic3 = basic;
+        break;
+
+      case "basic4":
+        users.basic4 = basic;
+        break;
+
+      case "basic5":
+        users.basic5 = basic;
+        break;
+
+      case "basic6":
+        users.basic6 = basic;
+        break;
+      default:
+        break;
+    }
+    /*     users.basic2 = basic2;
+    users.basic3 = basic3;
+    users.basic4 = basic4;
+    users.basic5 = basic5;
+    users.basic6 = basic6; */
+    await users.save();
     res.status(200).json(users);
   } catch (error) {
     console.error(error.message);
