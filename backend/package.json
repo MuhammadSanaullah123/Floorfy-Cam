@@ -27,7 +27,8 @@
     "nodemailer": "^6.9.7",
     "nodemailer-sendgrid-transport": "^0.2.0",
     "request": "^2.88.2",
-    "stream-buffers": "^3.0.2"
+    "stream-buffers": "^3.0.2",
+    "twilio": "^5.0.4"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",

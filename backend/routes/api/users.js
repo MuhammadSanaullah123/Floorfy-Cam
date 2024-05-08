@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const twilio = require("twilio");
 const { check, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 
@@ -59,6 +60,7 @@ router.post(
       const salt = await bcrypt.genSalt(10);
 
       user.password = await bcrypt.hash(password, salt);
+      console.log(user);
 
       await user.save();
 
@@ -497,5 +499,28 @@ router.post(
     }
   }
 );
+
+// @desc    Send SMS to User
+// @route   POST /api/users/sms
+// @access  Private
+router.post("/sms", auth, async (req, res) => {
+  let { name, phone } = req.body;
+  const client = new twilio(
+    process.env.TWILIO_ACCOUNT_SID,
+    process.env.TWILIO_AUTH_TOKEN
+  );
+  client.messages
+    .create({
+      body: `Dear ${name},
+      This is a test message from Twilio.`,
+      from: process.env.TWILIO_PHONE_NUMBER,
+      to: `${phone}`,
+    })
+    .then((message) => {
+      console.log("Message sent",message);
+      return res.status(200).json({ message: "Message sent" });
+    })
+    .catch((error) => console.error(error));
+});
 
 module.exports = router;

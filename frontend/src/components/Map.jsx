@@ -16,7 +16,7 @@ import {
 } from "react-geocode";
 //mui
 import Checkbox from "@mui/material/Checkbox";
-const AnyReactComponent = () => (
+const AnyReactComponent = (lat, lng) => (
   <div style={{ width: "30px", height: "30px" }}>
     <i
       className="fa-solid fa-location-dot"
@@ -37,7 +37,10 @@ const Map = ({ setValues, handleInput, values }) => {
       lng: null,
     },
   });
-  const [marker, setMarker] = useState(null);
+  const [marker, setMarker] = useState({
+    lat: values?.location.lat,
+    lng: values?.location.lng,
+  });
   const defaultProps = {
     center: {
       lat: 23.8859, // Default latitude for KSA
@@ -136,6 +139,41 @@ const Map = ({ setValues, handleInput, values }) => {
       ? user.companylocation
       : mapOptions.center
   );
+  const getUserLocation = () => {
+    // Function to get user's current location
+
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          /* setDefaultLocation({ lat: latitude, lng: longitude }); */
+          console.log("Latitude is :", latitude);
+          console.log("Longitude is :", longitude);
+
+          setMapOptions({
+            center: {
+              lat: latitude,
+              lng: longitude,
+            },
+            zoom: 15,
+          });
+        },
+        (error) => {
+          console.error("Error getting user location:", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  };
+  const handleLiveLocation = () => {
+    getUserLocation();
+    setValues({ ...values, location: mapOptions.center });
+  };
+
+  useEffect(() => {
+    getUserLocation();
+  }, []);
   return (
     <>
       <div className="mapDiv">
@@ -176,6 +214,9 @@ const Map = ({ setValues, handleInput, values }) => {
         >
           {marker && <AnyReactComponent lat={marker.lat} lng={marker.lng} />}
         </GoogleMapReact>
+        <button className="locationBtn" onClick={handleLiveLocation}>
+          Live Location
+        </button>
         <div
           className="checkboxDiv"
           style={{

@@ -160,7 +160,7 @@ const Profile = () => {
             Profile
           </p>
         </Link>
-        <h4>|</h4>
+        {/*    <h4>|</h4>
         <Link
           to="#users"
           onClick={() => setHashRender(!hashrender)}
@@ -187,7 +187,7 @@ const Profile = () => {
           >
             Brand
           </p>
-        </Link>
+        </Link> */}
       </div>
 
       {hash === "" && (

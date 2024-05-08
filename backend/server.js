@@ -35,7 +35,7 @@ app.use("/api/conversation", require("./routes/api/conversation"));
 app.use("/api/property", require("./routes/api/property"));
 app.use("/api/tour", require("./routes/api/tour"));
 
-/* const _dirname = path.dirname("");
+const _dirname = path.dirname("");
 const buildPath = path.join(_dirname, "../frontend/build");
 
 app.use(express.static(buildPath));
@@ -48,7 +48,7 @@ app.get("/*", function (req, res) {
       }
     }
   );
-}); */
+});
 
 const PORT = process.env.PORT || 5000;
 

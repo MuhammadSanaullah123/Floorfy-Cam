@@ -7,14 +7,19 @@ import Box from "@mui/material/Box";
 import YouTube from "react-youtube";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
-
+//others
+import { toast } from "react-toastify";
+//api
+import { useSendSmsMutation } from "../slices/usersApiSlice";
 const TutorialModal = ({ content, modalOpen, setModalOpen }) => {
   const [open, setOpen] = useState(modalOpen);
 
   const [values, setValues] = useState({
-    mobile: null,
+    phone: null,
     name: "",
   });
+  const [sendSms] = useSendSmsMutation();
+  console.log("values", values);
   const [cameraAnswer, setCameraAnswer] = useState("");
   const [tripodAnswer, setTripodAnswer] = useState("");
 
@@ -62,6 +67,28 @@ const TutorialModal = ({ content, modalOpen, setModalOpen }) => {
       setTripodAnswer(answer);
     }
   };
+
+  const handleSendSms = async (e) => {
+    e.preventDefault();
+    let data = {
+      phone: values.phone,
+      name: values.name,
+    };
+    try {
+      const res = await sendSms(data).unwrap();
+      console.log(res);
+      toast.success("Sms Sent", { position: "top-center" });
+      setValues({
+        phone: null,
+        name: "",
+      });
+      handleClose();
+    } catch (error) {
+      console.error(error);
+      toast.error(error.msg);
+    }
+  };
+
   useEffect(() => {
     setOpen(modalOpen);
   }, [modalOpen]);
@@ -111,7 +138,7 @@ const TutorialModal = ({ content, modalOpen, setModalOpen }) => {
             <>
               <h1>Training</h1>
               <p>We will contact you to coordinate a free training session.</p>
-              <form onSubmit={handleTrainingSession}>
+              <form onSubmit={handleSendSms}>
                 <p>Name</p>
                 <input
                   type="text"
@@ -125,19 +152,13 @@ const TutorialModal = ({ content, modalOpen, setModalOpen }) => {
 
                 <input
                   type="text"
-                  name="mobile"
-                  value={values.mobile}
+                  name="phone"
+                  value={values.phone}
                   onChange={handleInput}
                   placeholder="Phone"
                   className="nameInput"
                 />
-                {/*  <PhoneInput
-                
-                  placeholder="Enter phone number"
-                  value={values.mobile}
-                  name="mobile"
-                  onChange={handleInput}
-                /> */}
+
                 <button type="submit">Send</button>
               </form>
             </>

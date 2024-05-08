@@ -127,9 +127,10 @@ const Properties = () => {
           <img src={tour360} alt="" className="worldImg" />
           <p>Create new tour</p>
         </div>
-        {tourInfo?.map((tour, index) => (
-          <TourDemoDiv tour={tour} key={index} />
-        ))}
+        {tourInfo?.length > 0 &&
+          tourInfo?.map((tour, index) => (
+            <TourDemoDiv tour={tour} key={index} />
+          ))}
       </div>
       <div className="resultDiv">
         <p>Showing 3 results</p>

@@ -2318,6 +2318,7 @@
           img {
             flex: auto;
             height: 150px;
+            max-width: 150px;
             border-radius: 4px;
             @media (max-width: 710px) {
               width: 100%;
@@ -2562,6 +2563,15 @@
             width: 100%;
           }
         }
+      }
+      .locationBtn {
+        background-color: var(--primary-color);
+        border: 0;
+        color: #fff;
+        border-radius: 6px;
+        height: 35px;
+        margin-top: 10px;
+        cursor: pointer;
       }
       .checkboxDiv {
         display: flex;
@@ -3605,7 +3615,7 @@
       .contentDiv {
         background-color: rgb(0 0 0 / 19%);
         border-radius: 6px;
-        height: 300px;
+        height: 100%;
         margin: 10px;
         overflow-y: auto;
         margin-bottom: 20px;

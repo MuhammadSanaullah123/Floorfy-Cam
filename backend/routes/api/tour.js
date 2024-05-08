@@ -101,4 +101,26 @@ router.get(
   }
 );
 
+// @route   PUT api/tour/:id
+// @desc    Get single Tour by id
+// @access  Private
+router.put(
+  "/:id",
+
+  async (req, res) => {
+    try {
+      const { images } = req.body;
+      console.log(images);
+      let id = req.params.id;
+      let tour = await Tour.findById({ _id: id });
+      tour.images.push(...images);
+      await tour.save();
+      res.status(200).json(tour);
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Server Error");
+    }
+  }
+);
+
 module.exports = router;

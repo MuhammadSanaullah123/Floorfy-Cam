@@ -627,7 +627,22 @@ const VideoComponent = () => {
           </div>
           <div id="stream__box" /*  onClick={hideDisplayFrame} */></div>
           {product === "virtual_tour" && guest === "false" && (
-            <div className="contentDiv"></div>
+            <div className="contentDiv">
+              <iframe
+                id="embed_iframe_box"
+                src="http://13.232.6.248/cms4vr/link/6628eb0cd4504"
+                scrolling="no"
+                frameborder="0"
+                allowvr="yes"
+                allow="vr; xr; accelerometer; magnetometer; gyroscope; autoplay;"
+                allowfullscreen
+                mozallowfullscreen="true"
+                webkitallowfullscreen="true"
+                width="100%"
+                height="100%"
+                title="Virtual Tour"
+              ></iframe>
+            </div>
           )}
           {product === "floorplans" && guest === "false" && (
             <div className="contentDiv">

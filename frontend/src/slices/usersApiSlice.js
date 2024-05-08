@@ -74,6 +74,13 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    sendSms: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/sms`,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -88,4 +95,5 @@ export const {
   useGetUserByIdMutation,
   useGetResetCodeMutation,
   useResetPasswordMutation,
+  useSendSmsMutation,
 } = usersApiSlice;

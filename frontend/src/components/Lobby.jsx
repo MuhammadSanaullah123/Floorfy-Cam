@@ -112,6 +112,9 @@ const Lobby = () => {
             playsInline
             className="videotag"
             id="videotag"
+            style={{
+              display: cameraEnabled ? "block" : "none",
+            }}
           />
         </div>
         <div className="iconDiv">

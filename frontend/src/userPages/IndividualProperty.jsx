@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 //assets
@@ -18,15 +18,21 @@ import PropertyStatistics from "../components/PropertyStatistics";
 //api
 import { useDispatch, useSelector } from "react-redux";
 import { setTour } from "../slices/tourSlice";
-import { useGetTourMutation } from "../slices/tourApiSlice";
+import {
+  useGetTourMutation,
+  useUpdateTourImagesMutation,
+} from "../slices/tourApiSlice";
 //others
 import { toast } from "react-toastify";
+import { saveAs } from "file-saver";
 const IndividualProperty = () => {
   const dispatch = useDispatch();
 
   const [hashrender, setHashRender] = useState(false);
   const [content, setContent] = useState("virtual_tour");
   const [getTour] = useGetTourMutation();
+  const [updateTourImages] = useUpdateTourImagesMutation();
+
   const { tourInfo } = useSelector((state) => state.tour);
 
   let hash = window.location.hash;
@@ -41,6 +47,59 @@ const IndividualProperty = () => {
       console.error(error);
       toast.error(error.msg);
     }
+  };
+  const fileInputRef = useRef(null);
+  const [uploadedImages, setUploadedImages] = useState([]);
+  console.log("uploadedImages", uploadedImages);
+  const handleUpload = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileInputChange = (e) => {
+    const files = Array.from(e.target.files);
+    // You can perform additional validation or processing here if needed
+    setUploadedImages(files);
+    handleUploadCloudinary(files);
+  };
+  const handleUploadCloudinary = async (files) => {
+    let image_url_arr = [];
+    console.log("files", files);
+    for (let i = 0; i < files.length; i++) {
+      const dataForm = new FormData();
+      dataForm.append("file", files[i]);
+      dataForm.append("upload_preset", "u928wexc");
+      dataForm.append("cloud_name", "dihkvficg");
+
+      const res = await fetch(
+        "https://api.cloudinary.com/v1_1/dihkvficg/image/upload",
+        {
+          method: "post",
+          body: dataForm,
+        }
+      );
+
+      const resData = await res.json();
+      const image_url = resData.url;
+      image_url_arr.push(image_url);
+    }
+
+    try {
+      let id = window.location.pathname.split("/")[2];
+      let data = {
+        id,
+        images: image_url_arr,
+      };
+
+      const res = await updateTourImages(data).unwrap();
+
+      dispatch(setTour({ ...res }));
+    } catch (error) {
+      console.error(error);
+      toast.error(error.msg);
+    }
+  };
+  const downloadImage = () => {
+    tourInfo?.images?.map((image) => saveAs(`${image}`, "image.jpg"));
   };
   useEffect(() => {
     handleGetTour();
@@ -197,7 +256,7 @@ const IndividualProperty = () => {
                 {/*  <img src={tour_eg} alt="" /> */}
                 <iframe
                   id="embed_iframe_box"
-                  src="http://13.232.6.248/cms4vr/link/6622a21cde4d3"
+                  src="http://13.232.6.248/cms4vr/link/6628eb0cd4504"
                   scrolling="no"
                   frameborder="0"
                   allowvr="yes"
@@ -230,14 +289,15 @@ const IndividualProperty = () => {
               <div className="contentfloorplanDiv">
                 <div className="contentfloorplanDiv1">
                   <button>Request floorplans</button>
-                  <span>
+
+                  {/* <span>
                     <i className="fa-solid fa-upload"></i>
                     <p>Upload</p>
                   </span>
                   <span style={{ width: "115px" }}>
                     <i className="fa-solid fa-download"></i>
                     <p>Download</p>
-                  </span>
+                  </span> */}
                 </div>
                 <div className="contentfloorplanDiv2">
                   <div className="floorplan1">
@@ -252,15 +312,23 @@ const IndividualProperty = () => {
             {content === "images" && (
               <div className="contentimagesDiv">
                 <div className="contentimagesDiv1">
-                  <span>
+                  {/* <span>
                     <i className="fa-solid fa-camera"></i>
                     <p>Capture</p>
-                  </span>
-                  <span>
+                  </span> */}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    style={{ display: "none" }}
+                    ref={fileInputRef}
+                    onChange={handleFileInputChange}
+                    multiple
+                  />
+                  <span onClick={handleUpload}>
                     <i className="fa-solid fa-upload"></i>
                     <p>Upload</p>
                   </span>
-                  <span>
+                  <span onClick={downloadImage}>
                     <i className="fa-solid fa-download"></i>
                     <p>Download</p>
                   </span>
@@ -269,35 +337,17 @@ const IndividualProperty = () => {
                   {tourInfo?.images?.map((image, index) => (
                     <img src={image} alt="" key={index} />
                   ))}
-                  {/*  <img src={image1} alt="" />
-                  <img src={image2} alt="" />
-                  <img src={image3} alt="" />
-                  <img src={image1} alt="" />
-                  <img src={image2} alt="" />
-                  <img src={image3} alt="" />
-                  <img src={image1} alt="" />
-                  <img src={image2} alt="" />
-                  <img src={image3} alt="" />
-                  <img src={image1} alt="" />
-                  <img src={image2} alt="" />
-                  <img src={image3} alt="" />
-                  <img src={image1} alt="" />
-                  <img src={image2} alt="" />
-                  <img src={image3} alt="" />
-                  <img src={image1} alt="" />
-                  <img src={image2} alt="" />
-                  <img src={image3} alt="" /> */}
                 </div>
               </div>
             )}
             {content === "videos" && (
               <div className="contentvideosDiv">
-                <div className="contentvideosDiv1">
+                {/*        <div className="contentvideosDiv1">
                   <span>
                     <i className="fa-solid fa-download"></i>
                     <p>Download</p>
                   </span>
-                </div>
+                </div> */}
                 <div className="contentvideosDiv2"></div>
               </div>
             )}

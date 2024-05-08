@@ -20,7 +20,7 @@ const Videocalls = () => {
             Video Calls
           </p>
         </Link>
-        <h4>|</h4>
+        {/*       <h4>|</h4>
         <Link
           to="#openhouses"
           onClick={() => setHashRender(!hashrender)}
@@ -33,7 +33,7 @@ const Videocalls = () => {
           >
             Open Houses
           </p>
-        </Link>
+        </Link> */}
       </div>
 
       {hash === "#videocalls" && <VideoCallDiv />}
