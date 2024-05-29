@@ -20,6 +20,13 @@ export const tourApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    deleteTourImages: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/${data.id}`,
+        method: "DELETE",
+        body: data,
+      }),
+    }),
     getTour: builder.mutation({
       query: (id) => ({
         url: `${USERS_URL}/${id}`,
@@ -40,4 +47,5 @@ export const {
   useGetTourMutation,
   useGetAllTourMutation,
   useUpdateTourImagesMutation,
+  useDeleteTourImagesMutation,
 } = tourApiSlice;

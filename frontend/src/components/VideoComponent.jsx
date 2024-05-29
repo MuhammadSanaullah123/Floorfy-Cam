@@ -53,8 +53,9 @@ const VideoComponent = () => {
   const [localTracks, setLocalTracks] = useState([]);
   const [localScreenTracks, setLocalScreenTracks] = useState();
   const [sharingScreen, setSharingScreen] = useState(false);
+  const [remoteUsers, setRemoteUsers] = useState({});
 
-  let remoteUsers = {};
+  console.log("remoteUsers", remoteUsers);
   const [camera, setCamera] = useState(true);
   const [mic, setMic] = useState(true);
   const [screen, setScreen] = useState(false);
@@ -64,15 +65,14 @@ const VideoComponent = () => {
   const guest = queryParameters.get("guest");
   const url_cam = queryParameters.get("cam");
   const url_mic = queryParameters.get("mic");
-  console.log(guest);
-  console.log(url_cam);
-  console.log(url_mic);
+  console.log("clinet,user", client.remoteUsers);
 
   const joinRoomInit = async () => {
     /*  let clientTemp = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" }); */
     await client.join(APP_ID, roomId, token, uid);
 
     client.on("user-published", handleUserPublish);
+
     client.on("user-left", handleUserLeft);
 
     /* setClient(clientTemp); */
@@ -95,7 +95,6 @@ const VideoComponent = () => {
     );
     let player;
     if (guest === "true") {
-      console.log("INSIDE guest true");
       player = ` <div class="hostDiv" id="user-container-${uid}" >
       <span class="span1">
       <div class="video-player" id="user-${uid}">
@@ -202,15 +201,21 @@ const VideoComponent = () => {
     setCount((prev) => prev + 1);
     console.log("ONLY FOR SECOND USER");
     console.log("client", client);
-    remoteUsers[user.uid] = user;
+    console.log("mediaType", mediaType);
+
+    setRemoteUsers({ ...remoteUsers, [user.uid]: user });
+    /*   remoteUsers[user.uid] = user; */
     /* let clientTemp = client; */
     await client.subscribe(user, mediaType);
     /*    setClient(clientTemp); */
+
     let player = document.getElementById(`user-container-${user.uid}`);
+    console.log("player", player);
 
     if (player === null) {
+      console.log("INSIDE player null");
       if (guest === "false") {
-        console.log("INSIDE second guest false");
+        console.log("INSIDE guest false");
 
         player = ` <div class="hostDiv" id="user-container-${user.uid}">
         <span class="span1">
@@ -228,6 +233,9 @@ const VideoComponent = () => {
           .getElementById("streams__container")
           .insertAdjacentHTML("afterbegin", player);
       } else {
+        console.log("INSIDE guest true");
+        console.log(user);
+
         player = ` <div class="hostDiv user-1-main" id="user-container-${user.uid}">
         <span class="span1">
         <div class="video-player" id="user-${user.uid}">
@@ -251,11 +259,14 @@ const VideoComponent = () => {
     }
 
     if (mediaType === "video") {
-      user.videoTrack.play(`user-${user.uid}`);
+      console.log(user);
+      user?.videoTrack?.play(`user-${user.uid}`);
     }
 
     if (mediaType === "audio") {
-      user.audioTrack.play();
+      console.log(user);
+
+      user?.audioTrack?.play();
     }
   };
 
@@ -296,7 +307,8 @@ const VideoComponent = () => {
   //when user leaves the call
   const handleUserLeft = async (user) => {
     displayFrame = document.getElementById("stream__box");
-    delete remoteUsers[user.uid];
+    setRemoteUsers({ ...remoteUsers, [user.uid]: null });
+    /* delete remoteUsers[user.uid]; */
     document.getElementById(`user-container-${user.uid}`).remove();
 
     if (userIdInDisplayFrame === `user-container-${user.uid}`) {
@@ -325,6 +337,8 @@ const VideoComponent = () => {
   const toggleCamera = async (e) => {
     console.log(localTracks);
     let localTracksTemp = localTracks;
+
+    console.log(localTracksTemp);
     if (localTracksTemp[1].muted) {
       await localTracksTemp[1].setMuted(false);
       setCamera(true);
@@ -426,10 +440,10 @@ const VideoComponent = () => {
     window.open("about:blank", "_self");
     window.close();
   };
-
   useEffect(() => {
     joinRoomInit();
   }, []);
+
   const [user, setUser] = useState({
     companylocation: {
       lat: null,
@@ -468,13 +482,19 @@ const VideoComponent = () => {
   };
   const handleCopy = () => {
     const temp = window.location.pathname.split("/")[2];
-    copy(`${process.env.REACT_APP_URL}/lobby/${temp}`);
+    copy(`${process.env.REACT_APP_BACKEND_URL}/lobby/${temp}`);
     toast.success("Link Copied!", {
       position: "top-center",
       hideProgressBar: true,
       autoClose: 1000,
     });
   };
+  const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth > 768);
+  const handleShowSideBar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+  console.log("sidebarOpen", sidebarOpen);
+
   const [userNames, setUserNames] = useState([]);
   useEffect(() => {
     console.log("useeffect");
@@ -490,6 +510,7 @@ const VideoComponent = () => {
     setUserNames(temp);
   }, [count, setCount]);
   console.log("userNames", userNames);
+
   return (
     <div id="videos">
       <div className="videoheader">
@@ -510,6 +531,10 @@ const VideoComponent = () => {
           <i className="fa-solid fa-user-plus"></i>
           <p>Invite</p>
         </button>
+
+        {guest === "false" && (
+          <i className="fa-solid fa-bars" onClick={handleShowSideBar}></i>
+        )}
       </div>
       <div className="parentDiv">
         {guest === "false" && (
@@ -630,7 +655,7 @@ const VideoComponent = () => {
             <div className="contentDiv">
               <iframe
                 id="embed_iframe_box"
-                src="http://13.232.6.248/cms4vr/link/6628eb0cd4504"
+                src="https://tool.camc.sa/cms4vr/link/6645cbc90a479"
                 scrolling="no"
                 frameborder="0"
                 allowvr="yes"
@@ -737,7 +762,12 @@ const VideoComponent = () => {
           </div>
         </div>
         {guest === "false" && (
-          <div className="rightDiv">
+          <div
+            className="rightDiv"
+            style={{
+              display: sidebarOpen ? "flex" : "none",
+            }}
+          >
             <Accordion defaultExpanded={true} className="accordian">
               <AccordionSummary
                 expandIcon={<i className="fa-solid fa-angle-down"></i>}

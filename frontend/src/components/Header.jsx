@@ -53,6 +53,7 @@ const Header = () => {
     }
   };
   const { userInfo } = useSelector((state) => state.auth);
+  console.log(userInfo);
   const handleAuth = async () => {
     try {
       const res = await auth().unwrap();
@@ -77,6 +78,14 @@ const Header = () => {
       handleAuth();
     }
   }, []);
+  const handleClick = (url) => {
+    if (window.location.pathname === "/home") {
+      window.location.assign(`${`/profile#${url}`}`);
+    } else {
+      window.location.assign(`${`/profile#${url}`}`);
+      window.location.reload();
+    }
+  };
   return (
     <div id="header">
       <div id="upperHeader">
@@ -85,7 +94,7 @@ const Header = () => {
         ) : (
           <i className="fa-solid fa-xmark fa-bars" onClick={handleMobile}></i>
         )}
-        <span className="logoSpan">
+        <span className="logoSpan" onClick={() => navigate("/home")}>
           <img src={logo} alt="" className="logo" />
           <h1>Cam</h1>
         </span>
@@ -106,7 +115,11 @@ const Header = () => {
         />
         <div className="profileDiv" onClick={() => setProfile(!profile)}>
           <span className="userSpan">
-            <i className="fa-solid fa-user"></i>
+            {userInfo?.image ? (
+              <img src={userInfo?.image} alt="" className="profileImg" />
+            ) : (
+              <i className="fa-solid fa-user"></i>
+            )}
           </span>
           <p className="profileDivp1">My Profile</p>
           {profile ? (
@@ -122,11 +135,22 @@ const Header = () => {
           >
             <div className="menuDiv1">
               <span className="imgSpan">
-                <i className="fa-solid fa-user"></i>
+                {userInfo?.image ? (
+                  <img src={userInfo?.image} alt="" className="profileImg" />
+                ) : (
+                  <i className="fa-solid fa-user"></i>
+                )}
               </span>
+
               <span className="emailSpan">
-                <p>test@gmail.com</p>
-                <Link to="/profile">Edit Profile</Link>
+                <p>{userInfo?.email}</p>
+                <Link
+                  /* to="/profile" */ onClick={() =>
+                    window.location.assign("/profile")
+                  }
+                >
+                  Edit Profile
+                </Link>
               </span>
             </div>
             <div
@@ -149,25 +173,50 @@ const Header = () => {
               <i className="fa-solid fa-tag linkIcon linkIconFlip"></i>
               <p>Customize brand</p>
             </div>
-            {/*  <div
+            <div
               className="hr"
               style={{
                 margin: "0px 0 15px 0",
               }}
             />
 
-            <div className="linkDiv">
+            <div
+              className="linkDiv"
+              /*    onClick={() => navigate("/profile#myplan")} */
+              /*    onClick={() => window.location.assign("/profile#myplan")} */
+              onClick={() => handleClick("myplan")}
+            >
               <i className="fa-solid fa-cube linkIcon"></i>
               <p>My plan</p>
             </div>
-            <div className="linkDiv">
+            <div
+              className="linkDiv" /* onClick={() => navigate("/profile#plans")} */
+              /*     onClick={() => window.location.assign("/profile#plans")} */
+              onClick={() => handleClick("plans")}
+            >
               <i className="fa-solid fa-rocket linkIcon"></i>
               <p>Plans</p>
             </div>
-            <div className="linkDiv">
+            <div
+              className="linkDiv"
+              /*    onClick={() => navigate("/profile#plugins")} */
+
+              /*        onClick={() => window.location.assign("/profile#plugins")} */
+              onClick={() => handleClick("plugins")}
+            >
+              <i className="fa-solid fa-puzzle-piece linkIcon"></i>
+              <p>Manage Plugins</p>
+            </div>
+            <div
+              className="linkDiv"
+              /*       onClick={() => navigate("/profile#payment")} */
+
+              /*          onClick={() => window.location.assign("/profile#payment")} */
+              onClick={() => handleClick("payment")}
+            >
               <i className="fa-regular fa-credit-card linkIcon"></i>
               <p>Payments</p>
-            </div> */}
+            </div>
             <div
               className="hr"
               style={{

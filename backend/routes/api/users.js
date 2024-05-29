@@ -41,7 +41,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { email, password } = req.body;
+    const { email, password, promo } = req.body;
 
     try {
       let user = await User.findOne({ email });
@@ -55,6 +55,7 @@ router.post(
       user = new User({
         email,
         password,
+        promoCode: promo,
       });
 
       const salt = await bcrypt.genSalt(10);
@@ -88,7 +89,6 @@ router.post(
             _id: user._id,
 
             email: user.email,
-
             role: user.role,
           });
         }
@@ -517,7 +517,7 @@ router.post("/sms", auth, async (req, res) => {
       to: `${phone}`,
     })
     .then((message) => {
-      console.log("Message sent",message);
+      console.log("Message sent", message);
       return res.status(200).json({ message: "Message sent" });
     })
     .catch((error) => console.error(error));

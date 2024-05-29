@@ -21,6 +21,7 @@ import { setTour } from "../slices/tourSlice";
 import {
   useGetTourMutation,
   useUpdateTourImagesMutation,
+  useDeleteTourImagesMutation,
 } from "../slices/tourApiSlice";
 //others
 import { toast } from "react-toastify";
@@ -32,6 +33,7 @@ const IndividualProperty = () => {
   const [content, setContent] = useState("virtual_tour");
   const [getTour] = useGetTourMutation();
   const [updateTourImages] = useUpdateTourImagesMutation();
+  const [deleteTourImage] = useDeleteTourImagesMutation();
 
   const { tourInfo } = useSelector((state) => state.tour);
 
@@ -98,8 +100,48 @@ const IndividualProperty = () => {
       toast.error(error.msg);
     }
   };
-  const downloadImage = () => {
+
+  const handleDeleteImage = async (image) => {
+    try {
+      let id = window.location.pathname.split("/")[2];
+      let data = {
+        id,
+        image,
+      };
+
+      const res = await deleteTourImage(data).unwrap();
+
+      dispatch(setTour({ ...res }));
+    } catch (error) {
+      console.error(error);
+      toast.error(error.msg);
+    }
+  };
+
+  /*   const downloadImage = () => {
     tourInfo?.images?.map((image) => saveAs(`${image}`, "image.jpg"));
+  }; */
+  const downloadImage = () => {
+    tourInfo?.images?.map((image) => {
+      // Add fl_attachment transformation parameter before saveAs
+      const modifiedImageUrl = image
+        .replace("http://", "https://")
+        .replace("/upload/", "/upload/fl_attachment/");
+      console.log(modifiedImageUrl);
+      saveAs(modifiedImageUrl, "image.jpg");
+    });
+  };
+  const handleVideoDownload = () => {
+    // Create a link element
+    const link = document.createElement("a");
+    link.href =
+      "https://floorfycdn.com/img/user/91927/video_1987195.mp4?t=1716556011";
+    link.download = "video.mp4";
+    document.body.appendChild(link);
+    // Trigger the click event on the link
+    link.click();
+    // Clean up
+    document.body.removeChild(link);
   };
   useEffect(() => {
     handleGetTour();
@@ -109,7 +151,7 @@ const IndividualProperty = () => {
       <span className="span1">
         <p className="p1">Properties</p>
         <i className="fa-solid fa-angle-right"></i>
-        <h1 className="h1">3D Tour Demo</h1>
+        <h1 className="h1">{tourInfo?.name}</h1>
       </span>
       <div className="headerDiv">
         <Link to="#content" onClick={() => setHashRender(!hashrender)}>
@@ -163,7 +205,10 @@ const IndividualProperty = () => {
       </div>
       <div className="headerDiv headerDivMobile">
         <div className="callDivmobile">
-          <span className="videocallSpan">
+          <span
+            className="videocallSpan"
+            onClick={() => window.open("/lobby/494e56cb97d21544", "_blank")}
+          >
             <i className="fa-solid fa-video"></i>
             <p>{window.screen.width <= "975" ? "Start" : "Start videocall"}</p>
           </span>
@@ -256,8 +301,7 @@ const IndividualProperty = () => {
                 {/*  <img src={tour_eg} alt="" /> */}
                 <iframe
                   id="embed_iframe_box"
-                  src="http://13.232.6.248/cms4vr/link/6628eb0cd4504"
-                  scrolling="no"
+                  src="https://tool.camc.sa/cms4vr/link/6645cbc90a479"
                   frameborder="0"
                   allowvr="yes"
                   allow="vr; xr; accelerometer; magnetometer; gyroscope; autoplay;"
@@ -335,21 +379,38 @@ const IndividualProperty = () => {
                 </div>
                 <div className="contentimagesDiv2">
                   {tourInfo?.images?.map((image, index) => (
-                    <img src={image} alt="" key={index} />
+                    <>
+                      <div className="singleimgContainer" key={index}>
+                        <img src={image} alt="" className="singleImg" />
+                        <i
+                          className="fa-solid fa-circle-xmark deleteIcon"
+                          onClick={() => handleDeleteImage(image)}
+                        ></i>
+                      </div>
+                    </>
                   ))}
                 </div>
               </div>
             )}
             {content === "videos" && (
-              <div className="contentvideosDiv">
-                {/*        <div className="contentvideosDiv1">
-                  <span>
+              <>
+                <div className="contentvideosDiv1">
+                  <span onClick={handleVideoDownload}>
                     <i className="fa-solid fa-download"></i>
                     <p>Download</p>
                   </span>
-                </div> */}
-                <div className="contentvideosDiv2"></div>
-              </div>
+                </div>
+                <div className="contentvideosDiv">
+                  <div className="contentvideosDiv2">
+                    <video controls autoPlay={false} className="videoElement">
+                      <source
+                        src="https://floorfycdn.com/img/user/91927/video_1987195.mp4?t=1716556011"
+                        type="video/mp4"
+                      />
+                    </video>
+                  </div>
+                </div>
+              </>
             )}
           </div>
         </div>

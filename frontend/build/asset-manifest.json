@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.b40c8104.css",
-    "main.js": "/static/js/main.6035fb25.js",
+    "main.css": "/static/css/main.4ab937c8.css",
+    "main.js": "/static/js/main.9d3d07e5.js",
     "static/media/AtypDisplay-Semibold.ttf": "/static/media/AtypDisplay-Semibold.e1747ef61d8e3dd2f83f.ttf",
     "static/media/AtypDisplay-Regular.ttf": "/static/media/AtypDisplay-Regular.5f86c45ccafe4bc339ea.ttf",
     "static/media/AtypDisplay-Medium.ttf": "/static/media/AtypDisplay-Medium.3f7d6d43b083c7d491db.ttf",
@@ -20,6 +20,7 @@
     "static/media/brandlogo2.jpg": "/static/media/brandlogo2.64675d6e2be16cf626d1.jpg",
     "static/media/brandlogo1.jpg": "/static/media/brandlogo1.708bee3b0ddb678a8edc.jpg",
     "static/media/logo2.png": "/static/media/logo2.d17e7ac853982aa0a597.png",
+    "static/media/logo1.png": "/static/media/logo1.9dc70c2ca6dd38886066.png",
     "static/media/images3.jpg": "/static/media/images3.7703155322f44f43f991.jpg",
     "static/media/images1.jpg": "/static/media/images1.7cbf740b1ac80b26b34b.jpg",
     "static/media/images2.jpg": "/static/media/images2.31f4d20deaa907f99291.jpg",
@@ -34,11 +35,11 @@
     "static/media/tripod.svg": "/static/media/tripod.5c763c1684269b842f57c8dedf377155.svg",
     "static/media/videos_icon.svg": "/static/media/videos_icon.132b2954fbf04ddb15224a88cc462c61.svg",
     "static/media/share.svg": "/static/media/share.6580a5893a59e34f486b60d081f114e5.svg",
-    "main.b40c8104.css.map": "/static/css/main.b40c8104.css.map",
-    "main.6035fb25.js.map": "/static/js/main.6035fb25.js.map"
+    "main.4ab937c8.css.map": "/static/css/main.4ab937c8.css.map",
+    "main.9d3d07e5.js.map": "/static/js/main.9d3d07e5.js.map"
   },
   "entrypoints": [
-    "static/css/main.b40c8104.css",
-    "static/js/main.6035fb25.js"
+    "static/css/main.4ab937c8.css",
+    "static/js/main.9d3d07e5.js"
   ]
 }

@@ -21,6 +21,8 @@ import IndividualProperty from "./userPages/IndividualProperty";
 import Profile from "./userPages/Profile";
 import VideoComponent from "./components/VideoComponent";
 import Lobby from "./components/Lobby";
+import TermsConditions from "./userPages/TermsConditions";
+import PrivaryPolicies from "./userPages/PrivaryPolicies";
 import store from "./store";
 import { Provider } from "react-redux";
 const App = () => {
@@ -33,6 +35,8 @@ const App = () => {
             window.location.pathname !== "/" &&
             window.location.pathname !== "/login" &&
             window.location.pathname !== "/forgot-password" &&
+            window.location.pathname !== "/terms-of-use" &&
+            window.location.pathname !== "/privacy-policy" &&
             window.location.pathname.split("/")[1] !== "lobby" &&
             window.location.pathname.split("/")[1] !== "video" &&
             window.location.pathname.split("/")[1] !== "reset-password" && (
@@ -61,6 +65,8 @@ const App = () => {
             <Route exact path="/analytics" element={<Analytics />} />
             <Route exact path="/help" element={<Help />} />
             <Route exact path="/profile" element={<Profile />} />
+            <Route exact path="/terms-of-use" element={<TermsConditions />} />
+            <Route exact path="/privacy-policy" element={<PrivaryPolicies />} />
           </Routes>
         </Router>
       </Provider>

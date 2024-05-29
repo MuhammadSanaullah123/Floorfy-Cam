@@ -34,7 +34,7 @@ const PropertyDetail = () => {
     isshowPropertyDetails: propertyInfo?.showDetails
       ? propertyInfo?.showDetails
       : true,
-    isenableWaterMark: propertyInfo?.enableWatermark 
+    isenableWaterMark: propertyInfo?.enableWatermark
       ? propertyInfo?.enableWatermark
       : true,
     ishideLocation: propertyInfo?.hideExactLocation

@@ -9,12 +9,12 @@ import floorplan from "../assets/floorplan.svg";
 const TourDemoDiv = ({ tour }) => {
   const navigate = useNavigate();
   return (
-    <div 
+    <div
       id="tourdemodiv"
       onClick={() => navigate(`/property/${tour._id}#content`)}
     >
       <div className="upperDiv">
-        <img src={tour.images[1]} alt="" className="tourimage" />
+        <img src={tour.images[0]} alt="" className="tourimage" />
         <span className="span1">
           <h1>{tour.name}</h1>
           <img src={share} className="fa-solid fa-share-nodes icon" alt="" />

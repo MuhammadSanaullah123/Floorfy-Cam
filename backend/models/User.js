@@ -26,6 +26,9 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    promoCode: {
+      type: String,
+    },
     role: {
       type: String,
       default: "user",

@@ -102,7 +102,7 @@ router.get(
 );
 
 // @route   PUT api/tour/:id
-// @desc    Get single Tour by id
+// @desc    Saves images to Tour
 // @access  Private
 router.put(
   "/:id",
@@ -114,6 +114,28 @@ router.put(
       let id = req.params.id;
       let tour = await Tour.findById({ _id: id });
       tour.images.push(...images);
+      await tour.save();
+      res.status(200).json(tour);
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Server Error");
+    }
+  }
+);
+
+// @route   DELETE api/tour/:id
+// @desc    Delete image from Tour
+// @access  Private
+router.delete(
+  "/:id",
+
+  async (req, res) => {
+    try {
+      const { image } = req.body;
+      console.log(image);
+      let id = req.params.id;
+      let tour = await Tour.findById({ _id: id });
+      tour.images = tour.images.filter((img) => img !== image);
       await tour.save();
       res.status(200).json(tour);
     } catch (error) {

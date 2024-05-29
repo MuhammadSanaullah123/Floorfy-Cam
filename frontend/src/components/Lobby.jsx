@@ -12,7 +12,6 @@ const Lobby = () => {
   const [error, setError] = useState(null);
   const [cameraEnabled, setCameraEnabled] = useState(true);
   const [microphoneEnabled, setMicrophoneEnabled] = useState(true);
-  const [roomId, setRoomId] = useState();
   const [auth] = useAuthMutation();
   const dispatch = useDispatch();
 
@@ -28,19 +27,7 @@ const Lobby = () => {
       });
     }
   };
-  const generateRandomId = () => {
-    const characters = "0123456789abcde";
-    const length = 16;
 
-    let randomString = "";
-
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      randomString += characters.charAt(randomIndex);
-    }
-    setRoomId(randomString);
-    return randomString;
-  };
   console.log(userInfo);
   useEffect(() => {
     const startMedia = async () => {

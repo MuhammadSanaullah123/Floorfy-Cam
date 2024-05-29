@@ -94,7 +94,7 @@ const Home = ({ loginComponent }) => {
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-  console.log(files);
+  console.log("files", files);
   const handleInput = (e) => {
     const Value = e.target.value;
     setValues({ ...values, [e.target.name]: Value });
@@ -105,13 +105,13 @@ const Home = ({ loginComponent }) => {
       [checkboxName]: !prevValues[checkboxName],
     }));
   };
-  const handleUploadDivClick = () => {
+  const handleUploadDivClick = (e) => {
+    e.stopPropagation();
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
   const handleDivClick = (name) => {
-    console.log(name);
     setSelectedDiv([...selectedDiv, name]);
     setModalOpen(true);
     setContent(name);
@@ -163,7 +163,6 @@ const Home = ({ loginComponent }) => {
       toast.error(error.msg);
     }
   };
-  console.log(values);
   const handleBasic = async (e, basic, basicType) => {
     e.preventDefault();
 
@@ -182,6 +181,12 @@ const Home = ({ loginComponent }) => {
       toast.error(error.msg);
     }
   };
+  const handleRemoveImg = (index, e) => {
+    e.stopPropagation();
+    let temp = files.slice();
+    temp.splice(index, 1);
+    setFiles([...temp]);
+  };
   useEffect(() => {
     if (
       values.name &&
@@ -193,8 +198,6 @@ const Home = ({ loginComponent }) => {
       setSecondStep(true);
     }
   }, [values.address, values.city, values.country, values.name, files]);
-
-  console.log(userInfo);
 
   return (
     <div id="home">
@@ -258,17 +261,28 @@ const Home = ({ loginComponent }) => {
             {files.length > 0 ? (
               <div className="previewImagesDiv">
                 {files.map((file, index) => (
-                  <img
-                    src={URL.createObjectURL(file)}
-                    alt={`Preview-${index}`}
-                    className="imagePreview"
-                    key={index}
-                    /*  style={{ maxWidth: '100px', maxHeight: '100px', marginRight: '10px' }} */
-                  />
+                  <div className="imgDiv">
+                    <img
+                      src={URL.createObjectURL(file)}
+                      alt={`Preview-${index}`}
+                      className="imagePreview"
+                      key={index}
+                      /*  style={{ maxWidth: '100px', maxHeight: '100px', marginRight: '10px' }} */
+                    />
+                    <i
+                      className="fa-solid fa-circle-xmark"
+                      onClick={(e) => handleRemoveImg(index, e)}
+                    ></i>
+                  </div>
                 ))}
                 <div className="paraDiv">
                   {/*  <img src={tour360} className="fa-solid fa-globe" /> */}
-                  <p>Drop your 360&deg; photos here</p>
+                  <input {...getInputProps()} ref={fileInputRef} />
+                  <p>
+                    <i className="fa-solid fa-cloud-arrow-up"></i>
+                    Click here to upload more photos
+                    {/* Drop your 360&deg; photos here */}
+                  </p>
                 </div>
               </div>
             ) : (
