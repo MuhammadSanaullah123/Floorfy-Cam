@@ -32,7 +32,6 @@ import TourDemoDiv from "../components/TourDemoDiv";
 import { useDispatch, useSelector } from "react-redux";
 import { setCredentials } from "../slices/authSlice";
 import { useUpdateUserBasicMutation } from "../slices/usersApiSlice";
-
 import { setAllTour, setTour, clearTour } from "../slices/tourSlice";
 import {
   useCreateTourMutation,
@@ -67,6 +66,8 @@ const Home = ({ loginComponent }) => {
     dollhouse: false,
     pack: false,
   });
+  const [getAllTours] = useGetAllTourMutation();
+
   const [secondStep, setSecondStep] = useState(false);
   const fileInputRef = useRef(null);
   const [files, setFiles] = useState([]);
@@ -74,7 +75,10 @@ const Home = ({ loginComponent }) => {
   const [content, setContent] = useState();
   const [updateUserBasic] = useUpdateUserBasicMutation();
   const [createTour] = useCreateTourMutation();
-
+  const { tourInfo } = useSelector((state) => state.tour);
+  const [recentTour, setRecentTour] = useState();
+  console.log("recentTour", recentTour);
+  console.log(tourInfo);
   const { userInfo } = useSelector((state) => state.auth);
   const [basic, setBasic] = useState({
     basic1: false,
@@ -187,6 +191,30 @@ const Home = ({ loginComponent }) => {
     temp.splice(index, 1);
     setFiles([...temp]);
   };
+  const handleGetTours = async () => {
+    try {
+      const res = await getAllTours().unwrap();
+
+      dispatch(setAllTour({ ...res }));
+      let latestTimestamp = "";
+      let latestObject = null;
+
+      // Iterate over the array of objects
+      res.forEach((obj) => {
+        const currentTimestamp =
+          obj.createdAt > obj.updatedAt ? obj.createdAt : obj.updatedAt;
+
+        if (currentTimestamp > latestTimestamp) {
+          latestTimestamp = currentTimestamp;
+          latestObject = obj;
+        }
+      });
+      setRecentTour(latestObject);
+    } catch (error) {
+      console.error(error);
+      toast.error(error.msg);
+    }
+  };
   useEffect(() => {
     if (
       values.name &&
@@ -199,6 +227,9 @@ const Home = ({ loginComponent }) => {
     }
   }, [values.address, values.city, values.country, values.name, files]);
 
+  useEffect(() => {
+    handleGetTours();
+  }, []);
   return (
     <div id="home">
       <div className="homeDiv1">
@@ -654,8 +685,9 @@ const Home = ({ loginComponent }) => {
                   height: "200px",
                 }} */
               >
+                <img src={recentTour?.images[0]} alt="" className="tourimage" />
                 <span className="span1">
-                  <h1>3D Tour Demo</h1>
+                  <h1>{recentTour?.name}</h1>
                   <img
                     src={share}
                     className="fa-solid fa-share-nodes icon"
@@ -665,7 +697,7 @@ const Home = ({ loginComponent }) => {
                 </span>
                 <span className="span2">
                   <i className="fa-solid fa-location-dot"></i>
-                  <p>Sitges, España, Passeig de la Ribera</p>
+                  <p>{recentTour?.address}</p>
                 </span>
                 <span className="span3">
                   <p>Tour 3D</p>

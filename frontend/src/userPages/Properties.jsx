@@ -52,7 +52,9 @@ const Properties = () => {
               hash === "#active" ? "linkspanSelected" : "linkspan"
             }`}
           >
-            1
+            {tourInfo?.length > 0
+              ? tourInfo?.filter((tour) => tour.archived === false)?.length
+              : "0"}{" "}
           </span>
         </Link>
         <h4>|</h4>
@@ -71,7 +73,9 @@ const Properties = () => {
               hash === "#archived" ? "linkspanSelected" : "linkspan"
             }`}
           >
-            1
+            {tourInfo?.length > 0
+              ? tourInfo?.filter((tour) => tour.archived === true)?.length
+              : "0"}
           </span>
         </Link>
         <div className="searchDiv">
@@ -127,13 +131,26 @@ const Properties = () => {
           <img src={tour360} alt="" className="worldImg" />
           <p>Create new tour</p>
         </div>
-        {tourInfo?.length > 0 &&
-          tourInfo?.map((tour, index) => (
-            <TourDemoDiv tour={tour} key={index} />
-          ))}
+        {tourInfo?.length > 0 && window.location.hash === "#active"
+          ? tourInfo
+              ?.filter((tour) => tour.archived === false)
+              .map((tour, index) => <TourDemoDiv tour={tour} key={index} />)
+          : tourInfo?.length > 0 && window.location.hash === "#archived"
+          ? tourInfo
+              ?.filter((tour) => tour.archived === true)
+              .map((tour, index) => <TourDemoDiv tour={tour} key={index} />)
+          : "No tours found"}
       </div>
       <div className="resultDiv">
-        <p>Showing 3 results</p>
+        <p>
+          Showing{" "}
+          {tourInfo?.length > 0 && window.location.hash === "#active"
+            ? tourInfo?.filter((tour) => tour.archived === false)?.length
+            : tourInfo?.length > 0 &&
+              window.location.hash === "#archived" &&
+              tourInfo?.filter((tour) => tour.archived === true)?.length}{" "}
+          results
+        </p>
       </div>
     </div>
   );

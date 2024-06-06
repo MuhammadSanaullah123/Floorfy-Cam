@@ -19,6 +19,8 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 //others
 import GoogleMapReact from "google-map-react";
 import AgoraRTC from "agora-rtc-sdk-ng";
+import AgoraRTM from "agora-rtm-sdk";
+
 import copy from "copy-to-clipboard";
 import { toast } from "react-toastify";
 
@@ -47,6 +49,8 @@ const VideoComponent = () => {
   const [client, setClient] = useState(
     AgoraRTC.createClient({ mode: "rtc", codec: "vp8" })
   );
+  const [rtmClient, setrtmClient] = useState();
+  const [channel, setChannel] = useState();
 
   let roomId = window.location.pathname.split("/")[2];
   /*  let localTracks = []; */
@@ -68,6 +72,16 @@ const VideoComponent = () => {
   console.log("clinet,user", client.remoteUsers);
 
   const joinRoomInit = async () => {
+    let rtmClientTemp = await AgoraRTM.createInstance(APP_ID);
+    await rtmClientTemp.login({ uid, token });
+
+    let channelTemp = await rtmClientTemp.createChannel(roomId);
+    await channelTemp.join();
+
+    channelTemp.on("MemberJoined", handleMemberJoined);
+    channelTemp.on("ChannelMessage", handleChannelMessage);
+
+    setChannel(channelTemp);
     /*  let clientTemp = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" }); */
     await client.join(APP_ID, roomId, token, uid);
 
@@ -109,7 +123,7 @@ const VideoComponent = () => {
     </div>`;
       document
         .getElementById("streams__container")
-        .insertAdjacentHTML("afterbegin", player);
+        .insertAdjacentHTML("beforeend", player);
     } else {
       console.log("INSIDE guest false");
 
@@ -147,6 +161,9 @@ const VideoComponent = () => {
     await client.publish([localTracksTemp[0], localTracksTemp[1]]);
     /* setClient(clientTemp); */
     setLocalTracks(localTracksTemp);
+    if (guest === "true") {
+      handleMicReset();
+    }
   };
 
   const switchToCamera = async () => {
@@ -198,7 +215,6 @@ const VideoComponent = () => {
   //when another user joins the call
   //others can see the joined user
   const handleUserPublish = async (user, mediaType) => {
-    setCount((prev) => prev + 1);
     console.log("ONLY FOR SECOND USER");
     console.log("client", client);
     console.log("mediaType", mediaType);
@@ -231,12 +247,13 @@ const VideoComponent = () => {
       </div>`;
         document
           .getElementById("streams__container")
-          .insertAdjacentHTML("afterbegin", player);
+          .insertAdjacentHTML("beforeend", player);
       } else {
         console.log("INSIDE guest true");
         console.log(user);
-
-        player = ` <div class="hostDiv user-1-main" id="user-container-${user.uid}">
+        let person = document.getElementsByClassName("hostDiv user-1-main");
+        if (person[0]) {
+          player = ` <div class="hostDiv" id="user-container-${user.uid}">
         <span class="span1">
         <div class="video-player" id="user-${user.uid}">
        
@@ -245,12 +262,29 @@ const VideoComponent = () => {
     
        <span class="span2">
        <i class="fa-solid fa-microphone"></i>
-       <p>Agency(You)</p>
+       <p>Guest-1</p>
      </span>
       </div>`;
-        document
-          .getElementById("top-container")
-          .insertAdjacentHTML("afterbegin", player);
+          document
+            .getElementById("streams__container")
+            .insertAdjacentHTML("beforeend", player);
+        } else {
+          player = ` <div class="hostDiv user-1-main" id="user-container-${user.uid}">
+  <span class="span1">
+  <div class="video-player" id="user-${user.uid}">
+ 
+  </div>
+  </span>
+
+ <span class="span2">
+ <i class="fa-solid fa-microphone"></i>
+ <p>Agency</p>
+</span>
+</div>`;
+          document
+            .getElementById("top-container")
+            .insertAdjacentHTML("afterbegin", player);
+        }
       }
 
       document
@@ -268,6 +302,39 @@ const VideoComponent = () => {
 
       user?.audioTrack?.play();
     }
+    setCount((prev) => prev + 1);
+    setUserNames((prev) => [...prev, "Guest-1"]);
+  };
+  const handleMicReset = async () => {
+    const micBtn = document.getElementById("mic-btn");
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await micBtn.click();
+    await new Promise((resolve) => setTimeout(resolve, 500)); // Wait for a short delay
+    await micBtn.click();
+  };
+  const handleMemberJoined = async (MemberId) => {
+    console.log("A new member has joined the room:", MemberId);
+
+    const micBtn = document.getElementById("mic-btn");
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await micBtn.click();
+    await new Promise((resolve) => setTimeout(resolve, 500)); // Wait for a short delay
+    await micBtn.click();
+  };
+  const handleChannelMessage = async (messageData) => {
+    console.log("message", messageData);
+    let data = JSON.parse(messageData.text);
+    console.log("data", data);
+    if (guest === "true" && data.screenShare === "true") {
+      let hostElement = document.getElementsByClassName("hostDiv user-1-main");
+      console.log(hostElement);
+      hostElement[0].click();
+    }
+  };
+  const sendMessage = async () => {
+    channel.sendMessage({
+      text: JSON.stringify({ "type:": "chat", screenShare: "true" }),
+    });
   };
 
   /*   let displayFrame = document.getElementById("stream__box"); */
@@ -405,6 +472,7 @@ const VideoComponent = () => {
       await client.publish([localScreenTracksTemp]);
 
       setLocalScreenTracks(localScreenTracksTemp);
+      sendMessage();
     } else {
       let localScreenTracksTemp = localScreenTracks;
       setSharingScreen(false);
@@ -443,7 +511,20 @@ const VideoComponent = () => {
   useEffect(() => {
     joinRoomInit();
   }, []);
-
+  /*   useEffect(() => {
+    if (sharingScreen) {
+      let hostElement = document.getElementsByClassName("hostDiv user-1-main");
+      console.log(hostElement);
+      hostElement[0].click();
+    }
+  }, [sharingScreen]); */
+  /*   useEffect(() => {
+    if (guest === "true") {
+      let hostElement = document.getElementsByClassName("hostDiv user-1-main");
+      console.log(hostElement);
+      hostElement[0].click();
+    }
+  }, []); */
   const [user, setUser] = useState({
     companylocation: {
       lat: null,
@@ -496,7 +577,9 @@ const VideoComponent = () => {
   console.log("sidebarOpen", sidebarOpen);
 
   const [userNames, setUserNames] = useState([]);
-  useEffect(() => {
+  const [userNumber, setUserNumber] = useState(0);
+
+  /*   useEffect(() => {
     console.log("useeffect");
     let temp = [];
     let users = document.getElementsByClassName("hostDiv");
@@ -508,9 +591,17 @@ const VideoComponent = () => {
       temp.push(name);
     }
     setUserNames(temp);
+  }, [count, setCount]); */
+  useEffect(() => {
+    console.log("useeffect");
+    let users = document.getElementsByClassName("hostDiv");
+    console.log("users", users);
+    for (let i = 1; i < users.length; i++) {
+      let name = `Guest-${i}`;
+      users[i].querySelector(".span2 p").textContent = name;
+    }
   }, [count, setCount]);
   console.log("userNames", userNames);
-
   return (
     <div id="videos">
       <div className="videoheader">
@@ -541,13 +632,14 @@ const VideoComponent = () => {
           <div className="leftDiv">
             <h1 className="leftDivh1">Activity</h1>
             <div className="hr" />
-            {userNames.length > 1 ? (
-              userNames.map((name, index) => {
+            {client?.remoteUsers?.length >= 1 ? (
+              client.remoteUsers.map((name, index) => {
+                console.log("userNames", userNames);
                 return (
                   <span className="activitySpan" key={index}>
                     <p className="activityP">
-                      {name}
-                      has joined!
+                      {/* {name} */}
+                      {`Guest-${index + 1}`} has joined!
                     </p>
                   </span>
                 );
@@ -572,6 +664,18 @@ const VideoComponent = () => {
               <i className="fa-solid fa-microphone"></i>
               <p>(You)</p>
             </span>
+            {client?.remoteUsers?.length >= 1
+              ? client.remoteUsers.map((name, index) => {
+                  console.log("userNames", userNames);
+                  return (
+                    <span className="span2">
+                      <i className="fa-solid fa-microphone"></i>
+                      <p>Guest-{index + 1}</p>
+                    </span>
+                  );
+                })
+              : ""}
+
             <div
               className="hr"
               style={{
@@ -854,7 +958,7 @@ const VideoComponent = () => {
 
                   <span className="span1">
                     <i className="fa-solid fa-location-dot"></i>
-                    <p>Pakistan ,jkhkjahsdjk a</p>
+                    <p>Pakistan ,Lorem epsum</p>
                   </span>
                 </div>
               </AccordionDetails>

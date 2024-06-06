@@ -7,7 +7,7 @@ const QuestionDiv = () => {
   const questions = [
     "What do I need to create a virtual tour?",
     "I don't have a 360º camera. What do I do?",
-    "What differentiates Floorfy from other platforms?",
+    "What differentiates Cam from other platforms?",
     "What happens if a rental camera breaks?",
     "Can I create videos?",
     "Why monthly or annual subscriptions and not one-time payments?",

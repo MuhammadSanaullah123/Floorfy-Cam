@@ -2,8 +2,8 @@ import { apiSlice } from "./apiSlice";
 
 /* const USERS_URL = "https://travendev.com/api/api/document"; */
 
-const USERS_URL = `${process.env.REACT_APP_BACKEND_URL}/api/tour`;
-/* const USERS_URL = "http://localhost:5000/api/tour"; */
+/* const USERS_URL = `${process.env.REACT_APP_BACKEND_URL}/api/tour`; */
+const USERS_URL = "http://localhost:5000/api/tour";
 export const tourApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     createTour: builder.mutation({
@@ -20,6 +20,15 @@ export const tourApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+
+    archiveTour: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/archive/${data.id}`,
+        method: "PUT",
+        body: data,
+      }),
+    }),
+
     deleteTourImages: builder.mutation({
       query: (data) => ({
         url: `${USERS_URL}/${data.id}`,
@@ -48,4 +57,5 @@ export const {
   useGetAllTourMutation,
   useUpdateTourImagesMutation,
   useDeleteTourImagesMutation,
+  useArchiveTourMutation,
 } = tourApiSlice;

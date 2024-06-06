@@ -145,4 +145,24 @@ router.delete(
   }
 );
 
+// @route   PUT api/tour/archive/:id
+// @desc    Archive Tour
+// @access  Private
+router.put(
+  "/archive/:id",
+
+  async (req, res) => {
+    try {
+      let id = req.params.id;
+      let tour = await Tour.findById({ _id: id });
+      tour.archived = !tour.archived;
+      await tour.save();
+      res.status(200).json(tour);
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Server Error");
+    }
+  }
+);
+
 module.exports = router;

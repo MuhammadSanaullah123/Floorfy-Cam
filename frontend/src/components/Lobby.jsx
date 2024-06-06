@@ -51,14 +51,36 @@ const Lobby = () => {
         setError(
           "Error accessing media devices. Please check camera and microphone permissions."
         );
+        // Check camera and microphone permissions
+        const cameraPermission = await navigator.permissions.query({
+          name: "camera",
+        });
+        const microphonePermission = await navigator.permissions.query({
+          name: "microphone",
+        });
+        console.log(cameraPermission);
+        console.log(microphonePermission);
+
+        if (
+          cameraPermission.state === "denied" &&
+          microphonePermission.state === "denied"
+        ) {
+          alert("Please grant camera and microphone permissions");
+        } else if (cameraPermission.state === "denied") {
+          alert("Please grant camera permission");
+        } else if (microphonePermission.state === "denied") {
+          alert("Please grant microphone permission");
+        }
       }
     };
 
     startMedia();
 
     return () => {
-      const tracks = videoRef.current.srcObject?.getTracks();
-      tracks && tracks.forEach((track) => track.stop());
+      if (videoRef.current && videoRef.current.srcObject) {
+        const tracks = videoRef.current.srcObject.getTracks();
+        tracks.forEach((track) => track.stop());
+      }
     };
   }, [cameraEnabled, microphoneEnabled]);
 
@@ -69,16 +91,36 @@ const Lobby = () => {
   const toggleMicrophone = () => {
     setMicrophoneEnabled(!microphoneEnabled);
   };
-  const handleForward = () => {
-    const ID = window.location.pathname.split("/")[2];
-    if (userInfo) {
-      window.location.assign(
-        `/video/${ID}?guest=false&mic=${microphoneEnabled}&cam=${cameraEnabled}`
-      );
+  const handleForward = async () => {
+    const cameraPermission = await navigator.permissions.query({
+      name: "camera",
+    });
+    const microphonePermission = await navigator.permissions.query({
+      name: "microphone",
+    });
+    console.log(cameraPermission);
+    console.log(microphonePermission);
+
+    if (
+      cameraPermission.state === "denied" &&
+      microphonePermission.state === "denied"
+    ) {
+      alert("Please grant camera and microphone permissions");
+    } else if (cameraPermission.state === "denied") {
+      alert("Please grant camera permission");
+    } else if (microphonePermission.state === "denied") {
+      alert("Please grant microphone permission");
     } else {
-      window.location.assign(
-        `/video/${ID}?guest=true&mic=${microphoneEnabled}&cam=${cameraEnabled}`
-      );
+      const ID = window.location.pathname.split("/")[2];
+      if (userInfo) {
+        window.location.assign(
+          `/video/${ID}?guest=false&mic=${microphoneEnabled}&cam=${cameraEnabled}`
+        );
+      } else {
+        window.location.assign(
+          `/video/${ID}?guest=true&mic=${microphoneEnabled}&cam=${cameraEnabled}`
+        );
+      }
     }
   };
   useEffect(() => {

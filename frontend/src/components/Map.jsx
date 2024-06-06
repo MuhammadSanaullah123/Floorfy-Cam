@@ -177,14 +177,21 @@ const Map = ({ setValues, handleInput, values }) => {
   return (
     <>
       <div className="mapDiv">
-        <p>Address</p>
-        <GooglePlacesAutocomplete
-          id="addressInput"
-          selectProps={{
-            address,
-            onChange: setAddress,
-          }}
-        />
+        {window.location.pathname.split("/")[1] === "guest" ? (
+          ""
+        ) : (
+          <>
+            <p>Address</p>
+            <GooglePlacesAutocomplete
+              id="addressInput"
+              selectProps={{
+                address,
+                onChange: setAddress,
+              }}
+            />
+          </>
+        )}
+
         <p>Location</p>
         <GoogleMapReact
           bootstrapURLKeys={{
@@ -214,28 +221,35 @@ const Map = ({ setValues, handleInput, values }) => {
         >
           {marker && <AnyReactComponent lat={marker.lat} lng={marker.lng} />}
         </GoogleMapReact>
-        <button className="locationBtn" onClick={handleLiveLocation}>
-          Live Location
-        </button>
-        <div
-          className="checkboxDiv"
-          style={{
-            marginTop: "15px",
-          }}
-        >
-          <Checkbox
-            name="ishideLocation"
-            checked={values.ishideLocation}
-            onChange={handleInput}
-            sx={{
-              "& .MuiSvgIcon-root": { fontSize: 18 },
-              "&.Mui-checked": {
-                color: "#ffc600",
-              },
-            }}
-          />
-          <p>Hide the exact location to the users</p>
-        </div>
+
+        {window.location.pathname.split("/")[1] === "guest" ? (
+          ""
+        ) : (
+          <>
+            <button className="locationBtn" onClick={handleLiveLocation}>
+              Live Location
+            </button>
+            <div
+              className="checkboxDiv"
+              style={{
+                marginTop: "15px",
+              }}
+            >
+              <Checkbox
+                name="ishideLocation"
+                checked={values.ishideLocation}
+                onChange={handleInput}
+                sx={{
+                  "& .MuiSvgIcon-root": { fontSize: 18 },
+                  "&.Mui-checked": {
+                    color: "#ffc600",
+                  },
+                }}
+              />
+              <p>Hide the exact location to the users</p>
+            </div>
+          </>
+        )}
       </div>
     </>
   );

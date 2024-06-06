@@ -14,6 +14,10 @@ const TourSchema = new mongoose.Schema(
     city: {
       type: String,
     },
+    archived: {
+      type: Boolean,
+      default: false,
+    },
     images: [
       {
         type: String,

@@ -23,6 +23,8 @@ import VideoComponent from "./components/VideoComponent";
 import Lobby from "./components/Lobby";
 import TermsConditions from "./userPages/TermsConditions";
 import PrivaryPolicies from "./userPages/PrivaryPolicies";
+//Guest Pages
+import GuestPropertyPage from "./guestPages/GuestPropertyPage";
 import store from "./store";
 import { Provider } from "react-redux";
 const App = () => {
@@ -47,6 +49,8 @@ const App = () => {
             )}
 
           <Routes>
+            {/* Real estate User Pages */}
+
             <Route exact path="/home" element={<Home />} />
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/signup" element={<Signup />} />
@@ -67,6 +71,13 @@ const App = () => {
             <Route exact path="/profile" element={<Profile />} />
             <Route exact path="/terms-of-use" element={<TermsConditions />} />
             <Route exact path="/privacy-policy" element={<PrivaryPolicies />} />
+
+            {/* Guest Pages */}
+            <Route
+              exact
+              path="guest/property/:id"
+              element={<GuestPropertyPage />}
+            />
           </Routes>
         </Router>
       </Provider>

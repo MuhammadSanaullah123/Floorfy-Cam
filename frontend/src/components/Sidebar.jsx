@@ -3,8 +3,14 @@ import { useNavigate } from "react-router-dom";
 const Sidebar = () => {
   const navigate = useNavigate();
   const currentPage = window.location.pathname;
+
   return (
-    <div id="sideDrawer">
+    <div
+      id="sideDrawer"
+      style={{
+        display: currentPage.split("/")[1] === "guest" ? "none" : "block",
+      }}
+    >
       <div
         className={`sideLinkDiv ${
           currentPage === "/home" ? "sideLinkDivSelected" : "sideLinkDiv"

@@ -12,6 +12,10 @@ import floorplan2 from "../assets/floorplan2.jpg";
 import image1 from "../assets/images1.jpg";
 import image2 from "../assets/images2.jpg";
 import image3 from "../assets/images3.jpg";
+//mui
+import Box from "@mui/material/Box";
+
+import Modal from "@mui/material/Modal";
 //components
 import PropertyDetail from "../components/PropertyDetail";
 import PropertyStatistics from "../components/PropertyStatistics";
@@ -28,6 +32,15 @@ import { toast } from "react-toastify";
 import { saveAs } from "file-saver";
 const IndividualProperty = () => {
   const dispatch = useDispatch();
+  const currentPage = window.location.pathname;
+  const [open, setOpen] = useState(false);
+  const [enlargedImage, setEnlargedImage] = useState(false);
+
+  const handleOpen = (image) => {
+    setEnlargedImage(image);
+    setOpen(true);
+  };
+  const handleClose = () => setOpen(false);
 
   const [hashrender, setHashRender] = useState(false);
   const [content, setContent] = useState("virtual_tour");
@@ -143,6 +156,21 @@ const IndividualProperty = () => {
     // Clean up
     document.body.removeChild(link);
   };
+
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    bgcolor: "background.paper",
+    border: "2px solid #fff",
+    borderRadius: "8px",
+    boxShadow: 24,
+    padding: "2px",
+    width: "95%",
+    height: "90%",
+  };
+
   useEffect(() => {
     handleGetTour();
   }, []);
@@ -304,13 +332,16 @@ const IndividualProperty = () => {
                   src="https://tool.camc.sa/cms4vr/link/6645cbc90a479"
                   frameborder="0"
                   allowvr="yes"
-                  allow="vr; xr; accelerometer; magnetometer; gyroscope; autoplay;"
-                  allowfullscreen
+                  allow="vr; xr; accelerometer; magnetometer; gyroscope; autoplay; "
+                  allowfullscreen="true"
                   mozallowfullscreen="true"
                   webkitallowfullscreen="true"
                   width="100%"
                   height="100%"
                   title="Virtual Tour"
+                  style={{
+                    minHeight: "480px",
+                  }}
                 ></iframe>
               </div>
             )}
@@ -344,10 +375,16 @@ const IndividualProperty = () => {
                   </span> */}
                 </div>
                 <div className="contentfloorplanDiv2">
-                  <div className="floorplan1">
+                  <div
+                    className="floorplan1"
+                    onClick={() => handleOpen(floorplan1)}
+                  >
                     <img src={floorplan1} alt="" />
                   </div>
-                  <div className="floorplan2">
+                  <div
+                    className="floorplan2"
+                    onClick={() => handleOpen(floorplan1)}
+                  >
                     <img src={floorplan2} alt="" />
                   </div>
                 </div>
@@ -381,7 +418,31 @@ const IndividualProperty = () => {
                   {tourInfo?.images?.map((image, index) => (
                     <>
                       <div className="singleimgContainer" key={index}>
-                        <img src={image} alt="" className="singleImg" />
+                        {/*  <i
+                          className="fa-solid fa-up-right-and-down-left-from-center"
+                          onClick={() => handleOpen(image)}
+                        ></i> */}
+                        {/*  <Modal
+                          open={open}
+                          aria-labelledby="modal-modal-title"
+                          aria-describedby="modal-modal-description"
+                        >
+                          <Box sx={style} className="imageModal">
+                            <i
+                              className="fa-solid fa-xmark"
+                              onClick={handleClose}
+                            ></i>
+                            <div className="imgDiv">
+                              <img src={enlargedImage} alt="" />
+                            </div>
+                          </Box>
+                        </Modal> */}
+                        <img
+                          src={image}
+                          alt=""
+                          className="singleImg"
+                          onClick={() => handleOpen(image)}
+                        />
                         <i
                           className="fa-solid fa-circle-xmark deleteIcon"
                           onClick={() => handleDeleteImage(image)}
@@ -392,6 +453,18 @@ const IndividualProperty = () => {
                 </div>
               </div>
             )}
+            <Modal
+              open={open}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box sx={style} className="imageModal">
+                <i className="fa-solid fa-xmark" onClick={handleClose}></i>
+                <div className="imgDiv">
+                  <img src={enlargedImage} alt="" />
+                </div>
+              </Box>
+            </Modal>
             {content === "videos" && (
               <>
                 <div className="contentvideosDiv1">
