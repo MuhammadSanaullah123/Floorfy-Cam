@@ -28,6 +28,7 @@ import {
   useDeleteTourImagesMutation,
 } from "../slices/tourApiSlice";
 //others
+import copy from "copy-to-clipboard";
 import { toast } from "react-toastify";
 import { saveAs } from "file-saver";
 const IndividualProperty = () => {
@@ -156,7 +157,19 @@ const IndividualProperty = () => {
     // Clean up
     document.body.removeChild(link);
   };
-
+  const handleCopy = (e) => {
+    e.stopPropagation();
+    copy(
+      `${process.env.REACT_APP_BACKEND_URL}/guest/property/${
+        window.location.pathname.split("/")[2]
+      }#content`
+    );
+    toast.success("Link Copied!", {
+      position: "top-center",
+      hideProgressBar: true,
+      autoClose: 1000,
+    });
+  };
   const style = {
     position: "absolute",
     top: "50%",
@@ -216,19 +229,24 @@ const IndividualProperty = () => {
         <div className="callDiv">
           <span
             className="videocallSpan"
-            onClick={() => window.open("/lobby/494e56cb97d21544", "_blank")}
+            onClick={() =>
+              window.open(
+                `/lobby/${window.location.pathname.split("/")[2]}`,
+                "_blank"
+              )
+            }
           >
             <i className="fa-solid fa-video"></i>
             <p>{window.screen.width <= "975" ? "Start" : "Start videocall"}</p>
           </span>
-          <span className="span2">
+          <span className="span2" onClick={handleCopy}>
             <i className="fa-regular fa-copy"></i>
             <p>Copy tour link</p>
           </span>
-          <span className="span2">
+          {/*   <span className="span2">
             <i className="fa-regular fa-flag"></i>
             <p>Report bug</p>
-          </span>
+          </span> */}
         </div>
       </div>
       <div className="headerDiv headerDivMobile">

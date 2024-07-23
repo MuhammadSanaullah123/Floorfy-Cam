@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.9ffec696.css",
-    "main.js": "/static/js/main.bb920d03.js",
+    "main.css": "/static/css/main.dce4f00c.css",
+    "main.js": "/static/js/main.d17cddef.js",
     "static/media/AtypDisplay-Semibold.ttf": "/static/media/AtypDisplay-Semibold.e1747ef61d8e3dd2f83f.ttf",
     "static/media/AtypDisplay-Regular.ttf": "/static/media/AtypDisplay-Regular.5f86c45ccafe4bc339ea.ttf",
     "static/media/AtypDisplay-Medium.ttf": "/static/media/AtypDisplay-Medium.3f7d6d43b083c7d491db.ttf",
@@ -35,11 +35,11 @@
     "static/media/tripod.svg": "/static/media/tripod.5c763c1684269b842f57c8dedf377155.svg",
     "static/media/videos_icon.svg": "/static/media/videos_icon.132b2954fbf04ddb15224a88cc462c61.svg",
     "static/media/share.svg": "/static/media/share.6580a5893a59e34f486b60d081f114e5.svg",
-    "main.9ffec696.css.map": "/static/css/main.9ffec696.css.map",
-    "main.bb920d03.js.map": "/static/js/main.bb920d03.js.map"
+    "main.dce4f00c.css.map": "/static/css/main.dce4f00c.css.map",
+    "main.d17cddef.js.map": "/static/js/main.d17cddef.js.map"
   },
   "entrypoints": [
-    "static/css/main.9ffec696.css",
-    "static/js/main.bb920d03.js"
+    "static/css/main.dce4f00c.css",
+    "static/js/main.d17cddef.js"
   ]
 }

@@ -2,40 +2,50 @@ import React from "react";
 
 //assets
 import propertyimg from "../assets/tourexample.jpg";
-
-const VisitBox = ({ visit }) => {
+//others
+import Moment from "react-moment";
+const VisitBox = ({ visit, call, visits, page, tourInfo, tour, number }) => {
   return (
     <div id="visitbox">
-      <img className="propertyimg" src={propertyimg} alt="" />
+      {page === "total" ? (
+        <img className="propertyimg" src={tour.images[0]} alt="" />
+      ) : (
+        <img className="propertyimg" src={tourInfo.images[0]} alt="" />
+      )}
       <div className="visitboxParentDiv">
         <div className="visitboxd1">
-          <h1>3D Tour Demo</h1>
-          <p>25/12/2023</p>
+          <h1>{page === "total" ? tour?.name : "vr.camc.sa"}</h1>
+          <p>
+            {/* 25/12/2023  */}
+            {visit === "last" && (
+              <Moment format="DD/MM/YYYY">{visits?.date}</Moment>
+            )}
+          </p>
         </div>
         <div className="visitboxd2">
           <span className="span1">
             {visit === "last" ? (
               <>
-                <i className="fa-regular fa-clock"></i>
-                <p>50s</p>
+                {/*   <i className="fa-regular fa-clock"></i>
+                <p>50s</p> */}
               </>
             ) : (
               <>
                 <i className="fa-solid fa-trophy"></i>
-                <p>1</p>
+                <p>{number}</p>
               </>
             )}
           </span>
           <span className="span2">
             {visit === "last" ? (
               <>
-                <i className="fa-solid fa-location-dot"></i>
-                <p>Punjab, PK</p>
+                {/*  <i className="fa-solid fa-location-dot"></i>
+                <p>Punjab, PK</p> */}
               </>
             ) : (
               <>
                 <i className="fa-solid fa-eye"></i>
-                <p>2 Visits</p>
+                <p>{tour?.visited.length} Visits</p>
               </>
             )}
           </span>

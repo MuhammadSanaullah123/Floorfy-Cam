@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 const Sidebar = () => {
   const navigate = useNavigate();
   const currentPage = window.location.pathname;
 
+  /*   useEffect(() => {
+    const mobile = window.innerWidth < 768; 
+  }, []);
+ */
   return (
     <div
       id="sideDrawer"
       style={{
-        display: currentPage.split("/")[1] === "guest" ? "none" : "block",
+        display: currentPage.split("/")[1] === "guest" && "none",
       }}
     >
       <div
@@ -55,23 +59,27 @@ const Sidebar = () => {
 
       <div
         className={`sideLinkDiv ${
-          currentPage === "/videocalls" ? "sideLinkDivSelected" : "sideLinkDiv"
+          window.location.hash === `#plugins`
+            ? "sideLinkDivSelected"
+            : "sideLinkDiv"
         }`}
-        onClick={() => navigate("/videocalls#videocalls")}
+        onClick={() => navigate("/profile#plugins")}
       >
         <i
-          className={`fa-solid fa-video  ${
-            currentPage === "/videocalls" ? "sideIconSelected" : "sideIcon"
+          className={`fa-solid fa-puzzle-piece  ${
+            window.location.hash === `#plugins`
+              ? "sideIconSelected"
+              : "sideIcon"
           }`}
         ></i>
         <p
           className={`${
-            currentPage === "/videocalls"
+            window.location.hash === `#plugins`
               ? "sideLinkDivpSelected"
               : "sideLinkDivp"
           }`}
         >
-          Videocalls
+          Plugins
         </p>
       </div>
 
@@ -79,7 +87,7 @@ const Sidebar = () => {
         className={`sideLinkDiv ${
           currentPage === "/analytics" ? "sideLinkDivSelected" : "sideLinkDiv"
         }`}
-        onClick={() => navigate("/analytics")}
+        onClick={() => window.location.assign("/analytics")}
       >
         <i
           className={`fa-solid fa-chart-pie  ${

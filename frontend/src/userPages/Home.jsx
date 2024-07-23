@@ -39,6 +39,7 @@ import {
   useGetTourMutation,
 } from "../slices/tourApiSlice";
 import { Navigate } from "react-router-dom";
+import LatestTour from "../components/LatestTour";
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   width: 180,
@@ -196,16 +197,16 @@ const Home = ({ loginComponent }) => {
       const res = await getAllTours().unwrap();
 
       dispatch(setAllTour({ ...res }));
-      let latestTimestamp = "";
-      let latestObject = null;
+      if (res.length === 0) {
+        // Handle the case where res is an empty array
+        setRecentTour(null);
+        return;
+      }
+      let latestObject = res[0];
 
       // Iterate over the array of objects
       res.forEach((obj) => {
-        const currentTimestamp =
-          obj.createdAt > obj.updatedAt ? obj.createdAt : obj.updatedAt;
-
-        if (currentTimestamp > latestTimestamp) {
-          latestTimestamp = currentTimestamp;
+        if (obj.createdAt > latestObject.createdAt) {
           latestObject = obj;
         }
       });
@@ -652,6 +653,7 @@ const Home = ({ loginComponent }) => {
             </Accordion>
           </div>
         </div>
+
         <div
           className="homeDiv3 tourhomeDiv3"
           /*    style={{
@@ -665,26 +667,15 @@ const Home = ({ loginComponent }) => {
           >
             LET'S START
           </h1>
+
           <div
             className="homeDiv4"
-            style={{
+            /*     style={{
               height: "261px",
-            }}
+            }} */
           >
-            <div
-              id="tourdemodiv"
-              className="hometourdemodiv"
-              /*      style={{
-                width: "100%",
-                height: "100%",
-              }} */
-            >
-              <div
-                className="upperDiv homeupperDiv"
-                /*  style={{
-                  height: "200px",
-                }} */
-              >
+            {/*   <div id="tourdemodiv" className="hometourdemodiv">
+              <div className="upperDiv homeupperDiv">
                 <img src={recentTour?.images[0]} alt="" className="tourimage" />
                 <span className="span1">
                   <h1>{recentTour?.name}</h1>
@@ -728,7 +719,8 @@ const Home = ({ loginComponent }) => {
                   <p>Start</p>
                 </span>
               </div>
-            </div>
+            </div> */}
+            <LatestTour recentTour={recentTour} />
           </div>
         </div>
 

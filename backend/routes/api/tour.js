@@ -165,4 +165,45 @@ router.put(
   }
 );
 
+// @route   PUT api/tour/visited/:id
+// @desc    Add Visits
+// @access  Private
+router.put(
+  "/visited/:id",
+
+  async (req, res) => {
+    try {
+      let id = req.params.id;
+      let tour = await Tour.findById({ _id: id });
+      tour.visited.push({ date: new Date() });
+      await tour.save();
+      res.status(200).json(tour);
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Server Error");
+    }
+  }
+);
+
+// @route   PUT api/tour/videocall/:id
+// @desc    Add VideoCall
+// @access  Private
+router.put(
+  "/videocall/:id",
+
+  async (req, res) => {
+    try {
+      let id = req.params.id;
+      let { timeDuration } = req.body;
+      let tour = await Tour.findById({ _id: id });
+      tour.videoCalls.push({ timeDuration, date: new Date() });
+      await tour.save();
+      res.status(200).json(tour);
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Server Error");
+    }
+  }
+);
+
 module.exports = router;

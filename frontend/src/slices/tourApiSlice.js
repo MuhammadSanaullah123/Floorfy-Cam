@@ -28,7 +28,20 @@ export const tourApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
-
+    updateTourVisit: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/visited/${data.id}`,
+        method: "PUT",
+        body: data,
+      }),
+    }),
+    updateVideoCall: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/videocall/${data.id}`,
+        method: "PUT",
+        body: data,
+      }),
+    }),
     deleteTourImages: builder.mutation({
       query: (data) => ({
         url: `${USERS_URL}/${data.id}`,
@@ -58,4 +71,6 @@ export const {
   useUpdateTourImagesMutation,
   useDeleteTourImagesMutation,
   useArchiveTourMutation,
+  useUpdateTourVisitMutation,
+  useUpdateVideoCallMutation,
 } = tourApiSlice;

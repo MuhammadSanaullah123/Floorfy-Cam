@@ -20,9 +20,16 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import GoogleMapReact from "google-map-react";
 import AgoraRTC from "agora-rtc-sdk-ng";
 import AgoraRTM from "agora-rtm-sdk";
-
+import Cookies from "universal-cookie";
 import copy from "copy-to-clipboard";
 import { toast } from "react-toastify";
+//api
+import { useDispatch, useSelector } from "react-redux";
+import { setTour } from "../slices/tourSlice";
+import {
+  useUpdateTourVisitMutation,
+  useUpdateVideoCallMutation,
+} from "../slices/tourApiSlice";
 
 const AnyReactComponent = () => (
   <div style={{ width: "30px", height: "30px" }}>
@@ -39,8 +46,12 @@ const AnyReactComponent = () => (
 );
 
 const VideoComponent = () => {
+  const dispatch = useDispatch();
   const APP_ID = process.env.REACT_APP_ID;
   const [uid] = useState(String(Math.floor(Math.random() * 10000)));
+  const [updateTourVisit] = useUpdateTourVisitMutation();
+  const [updateVideoCall] = useUpdateVideoCallMutation();
+  const cookies = new Cookies(null, { path: "/" });
 
   /*  let uid = String(Math.floor(Math.random() * 10000)); */
 
@@ -64,7 +75,7 @@ const VideoComponent = () => {
   const [mic, setMic] = useState(true);
   const [screen, setScreen] = useState(false);
   const [count, setCount] = useState(0);
-
+  const [timer, setTimer] = useState(0);
   const queryParameters = new URLSearchParams(window.location.search);
   const guest = queryParameters.get("guest");
   const url_cam = queryParameters.get("cam");
@@ -96,7 +107,6 @@ const VideoComponent = () => {
   //when user start videocall
   const joinStream = async (client) => {
     console.log("ONLY FOR FIRST USER");
-    console.log(document.getElementsByClassName("hostDiv").length);
 
     let localTracksTemp = await AgoraRTC.createMicrophoneAndCameraTracks(
       {},
@@ -226,7 +236,6 @@ const VideoComponent = () => {
     /*    setClient(clientTemp); */
 
     let player = document.getElementById(`user-container-${user.uid}`);
-    console.log("player", player);
 
     if (player === null) {
       console.log("INSIDE player null");
@@ -293,13 +302,10 @@ const VideoComponent = () => {
     }
 
     if (mediaType === "video") {
-      console.log(user);
       user?.videoTrack?.play(`user-${user.uid}`);
     }
 
     if (mediaType === "audio") {
-      console.log(user);
-
       user?.audioTrack?.play();
     }
     setCount((prev) => prev + 1);
@@ -327,7 +333,6 @@ const VideoComponent = () => {
     console.log("data", data);
     if (guest === "true" && data.screenShare === "true") {
       let hostElement = document.getElementsByClassName("hostDiv user-1-main");
-      console.log(hostElement);
       hostElement[0].click();
     }
   };
@@ -388,7 +393,6 @@ const VideoComponent = () => {
     displayFrame.style.display = null;
     console.log("HIDE DISPLAY FRAME IS BEING CALLED");
     let child = displayFrame.children[0];
-    console.log(child);
     child.removeEventListener("click", hideDisplayFrame);
     child.addEventListener("click", expandVideoFrame);
     if (child.classList[1] === "user-1-main") {
@@ -472,7 +476,7 @@ const VideoComponent = () => {
       await client.publish([localScreenTracksTemp]);
 
       setLocalScreenTracks(localScreenTracksTemp);
-      sendMessage();
+      /*       sendMessage(); */
     } else {
       let localScreenTracksTemp = localScreenTracks;
       setSharingScreen(false);
@@ -488,6 +492,8 @@ const VideoComponent = () => {
 
   const leaveStream = async (e) => {
     e.preventDefault();
+    handleUpdateVideoCall();
+
     displayFrame = document.getElementById("stream__box");
 
     for (let i = 0; localTracks.length > i; i++) {
@@ -511,20 +517,21 @@ const VideoComponent = () => {
   useEffect(() => {
     joinRoomInit();
   }, []);
-  /*   useEffect(() => {
-    if (sharingScreen) {
-      let hostElement = document.getElementsByClassName("hostDiv user-1-main");
-      console.log(hostElement);
-      hostElement[0].click();
+  const [run, setRun] = useState(true);
+  useEffect(() => {
+    if (guest === "true" && run) {
+      setRun(false);
+
+      console.log("INSIDE run");
+      setTimeout(() => {
+        let hostElement = document.getElementsByClassName(
+          "hostDiv user-1-main"
+        );
+        hostElement[0].click();
+      }, 10000);
     }
-  }, [sharingScreen]); */
-  /*   useEffect(() => {
-    if (guest === "true") {
-      let hostElement = document.getElementsByClassName("hostDiv user-1-main");
-      console.log(hostElement);
-      hostElement[0].click();
-    }
-  }, []); */
+  }, [remoteUsers]);
+
   const [user, setUser] = useState({
     companylocation: {
       lat: null,
@@ -561,6 +568,35 @@ const VideoComponent = () => {
     console.log("Latitude:", newMarker.lat);
     console.log("Longitude:", newMarker.lng);
   };
+  const handleTourVisit = async () => {
+    try {
+      let id = window.location.pathname.split("/")[2];
+      let data = {
+        id,
+      };
+      const res = await updateTourVisit(data).unwrap();
+
+      dispatch(setTour({ ...res }));
+    } catch (error) {
+      console.error(error);
+      toast.error(error.msg);
+    }
+  };
+  const handleUpdateVideoCall = async () => {
+    try {
+      let id = window.location.pathname.split("/")[2];
+      let data = {
+        id,
+        timeDuration: timer,
+      };
+      const res = await updateVideoCall(data).unwrap();
+
+      dispatch(setTour({ ...res }));
+    } catch (error) {
+      console.error(error);
+      toast.error(error.msg);
+    }
+  };
   const handleCopy = () => {
     const temp = window.location.pathname.split("/")[2];
     copy(`${process.env.REACT_APP_BACKEND_URL}/lobby/${temp}`);
@@ -579,19 +615,6 @@ const VideoComponent = () => {
   const [userNames, setUserNames] = useState([]);
   const [userNumber, setUserNumber] = useState(0);
 
-  /*   useEffect(() => {
-    console.log("useeffect");
-    let temp = [];
-    let users = document.getElementsByClassName("hostDiv");
-    console.log("users", users);
-    for (let i = 0; i < users.length; i++) {
-      let name = users[i].querySelector(".span2 p").textContent;
-      console.log("name", name);
-
-      temp.push(name);
-    }
-    setUserNames(temp);
-  }, [count, setCount]); */
   useEffect(() => {
     console.log("useeffect");
     let users = document.getElementsByClassName("hostDiv");
@@ -601,7 +624,41 @@ const VideoComponent = () => {
       users[i].querySelector(".span2 p").textContent = name;
     }
   }, [count, setCount]);
-  console.log("userNames", userNames);
+  useEffect(() => {
+    const startTime = Date.now();
+
+    // Update the timer every second
+    const interval = setInterval(() => {
+      setTimer(Math.floor((Date.now() - startTime) / 1000));
+    }, 1000);
+    const endTime = Math.floor((Date.now() - startTime) / 1000);
+    /* 
+    const sendTimerValue = () => {
+      handleUpdateVideoCall(endTime);
+    }; */
+
+    // Cleanup interval and event listener when component unmounts
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+  useEffect(() => {
+    let id = window.location.pathname.split("/")[2];
+    if (!cookies.get("visited")) {
+      cookies.set("visited", [id]);
+      handleTourVisit();
+    } else {
+      let visited = cookies.get("visited");
+      if (!visited.includes(id)) {
+        visited.push(id);
+        cookies.set("visited", visited);
+        handleTourVisit();
+      }
+    }
+  }, []);
+
+  console.log("timer", timer);
+
   return (
     <div id="videos">
       <div className="videoheader">
@@ -617,7 +674,7 @@ const VideoComponent = () => {
             <p>0/0</p>
           </span> */}
         </span>
-
+        {/*         <p>{timer}</p> */}
         <button onClick={handleCopy}>
           <i className="fa-solid fa-user-plus"></i>
           <p>Invite</p>
@@ -760,17 +817,20 @@ const VideoComponent = () => {
               <iframe
                 id="embed_iframe_box"
                 src="https://tool.camc.sa/cms4vr/link/6645cbc90a479"
-                scrolling="no"
                 frameborder="0"
                 allowvr="yes"
-                allow="vr; xr; accelerometer; magnetometer; gyroscope; autoplay;"
-                allowfullscreen
+                allow="vr; xr; accelerometer; magnetometer; gyroscope; autoplay; "
+                allowfullscreen="true"
                 mozallowfullscreen="true"
                 webkitallowfullscreen="true"
                 width="100%"
                 height="100%"
                 title="Virtual Tour"
+                style={{
+                  minHeight: "480px",
+                }}
               ></iframe>
+              
             </div>
           )}
           {product === "floorplans" && guest === "false" && (

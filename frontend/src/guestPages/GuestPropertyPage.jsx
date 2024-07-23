@@ -9,16 +9,15 @@ import hdimages from "../assets/hdimage.svg";
 import videosimg from "../assets/videos_icon.svg";
 import floorplan1 from "../assets/floorplan1.jpg";
 import floorplan2 from "../assets/floorplan2.jpg";
-import image1 from "../assets/images1.jpg";
-import image2 from "../assets/images2.jpg";
-import image3 from "../assets/images3.jpg";
+
 //components
 import GuestPropertyDetail from "../components/GuestPropertyDetail";
 import PropertyStatistics from "../components/PropertyStatistics";
 //mui
 import Box from "@mui/material/Box";
-
 import Modal from "@mui/material/Modal";
+//others
+import Cookies from "universal-cookie";
 //api
 import { useDispatch, useSelector } from "react-redux";
 import { setTour } from "../slices/tourSlice";
@@ -26,12 +25,14 @@ import {
   useGetTourMutation,
   useUpdateTourImagesMutation,
   useDeleteTourImagesMutation,
+  useUpdateTourVisitMutation,
 } from "../slices/tourApiSlice";
 //others
 import { toast } from "react-toastify";
 import { saveAs } from "file-saver";
 const GuestPropertyPage = () => {
   const dispatch = useDispatch();
+  const cookies = new Cookies(null, { path: "/" });
   const [open, setOpen] = useState(false);
   const [enlargedImage, setEnlargedImage] = useState(false);
 
@@ -45,6 +46,7 @@ const GuestPropertyPage = () => {
   const [getTour] = useGetTourMutation();
   const [updateTourImages] = useUpdateTourImagesMutation();
   const [deleteTourImage] = useDeleteTourImagesMutation();
+  const [updateTourVisit] = useUpdateTourVisitMutation();
 
   const { tourInfo } = useSelector((state) => state.tour);
 
@@ -54,6 +56,20 @@ const GuestPropertyPage = () => {
     try {
       let id = window.location.pathname.split("/")[3];
       const res = await getTour(id).unwrap();
+
+      dispatch(setTour({ ...res }));
+    } catch (error) {
+      console.error(error);
+      toast.error(error.msg);
+    }
+  };
+  const handleTourVisit = async () => {
+    try {
+      let id = window.location.pathname.split("/")[3];
+      let data = {
+        id,
+      };
+      const res = await updateTourVisit(data).unwrap();
 
       dispatch(setTour({ ...res }));
     } catch (error) {
@@ -169,7 +185,20 @@ const GuestPropertyPage = () => {
   };
   useEffect(() => {
     handleGetTour();
+    let id = window.location.pathname.split("/")[3];
+    if (!cookies.get("visited")) {
+      cookies.set("visited", [id]);
+      handleTourVisit();
+    } else {
+      let visited = cookies.get("visited");
+      if (!visited.includes(id)) {
+        visited.push(id);
+        cookies.set("visited", visited);
+        handleTourVisit();
+      }
+    }
   }, []);
+
   return (
     <div
       id="individualproperty"

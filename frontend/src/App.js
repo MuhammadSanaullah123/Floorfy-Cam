@@ -23,6 +23,9 @@ import VideoComponent from "./components/VideoComponent";
 import Lobby from "./components/Lobby";
 import TermsConditions from "./userPages/TermsConditions";
 import PrivaryPolicies from "./userPages/PrivaryPolicies";
+import ForgotPassword from "./userPages/ForgotPassword";
+import ResetPassword from "./userPages/ResetPassword";
+import PrivateRouteUser from "./components/PrivateRouteUser";
 //Guest Pages
 import GuestPropertyPage from "./guestPages/GuestPropertyPage";
 import store from "./store";
@@ -50,28 +53,42 @@ const App = () => {
 
           <Routes>
             {/* Real estate User Pages */}
+            <Route path="" element={<PrivateRouteUser />}>
+              <Route exact path="/home" element={<Home />} />
 
-            <Route exact path="/home" element={<Home />} />
+              <Route
+                exact
+                path="/"
+                element={<Navigate replace to="/login" />}
+              />
+              <Route exact path="/properties" element={<Properties />} />
+              <Route
+                exact
+                path="/property/:id"
+                element={<IndividualProperty />}
+              />
+              <Route exact path="/video/:id" element={<VideoComponent />} />
+              <Route exact path="/lobby/:id" element={<Lobby />} />
+
+              <Route exact path="/videocalls" element={<Videocalls />} />
+              <Route exact path="/analytics" element={<Analytics />} />
+              <Route exact path="/help" element={<Help />} />
+              <Route exact path="/profile" element={<Profile />} />
+              <Route exact path="/terms-of-use" element={<TermsConditions />} />
+              <Route
+                exact
+                path="/privacy-policy"
+                element={<PrivaryPolicies />}
+              />
+            </Route>
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/signup" element={<Signup />} />
-
-            <Route exact path="/" element={<Navigate replace to="/login" />} />
-            <Route exact path="/properties" element={<Properties />} />
+            <Route exact path="/forgot-password" element={<ForgotPassword />} />
             <Route
               exact
-              path="/property/:id"
-              element={<IndividualProperty />}
+              path="/reset-password/:id/:token"
+              element={<ResetPassword />}
             />
-            <Route exact path="/video/:id" element={<VideoComponent />} />
-            <Route exact path="/lobby/:id" element={<Lobby />} />
-
-            <Route exact path="/videocalls" element={<Videocalls />} />
-            <Route exact path="/analytics" element={<Analytics />} />
-            <Route exact path="/help" element={<Help />} />
-            <Route exact path="/profile" element={<Profile />} />
-            <Route exact path="/terms-of-use" element={<TermsConditions />} />
-            <Route exact path="/privacy-policy" element={<PrivaryPolicies />} />
-
             {/* Guest Pages */}
             <Route
               exact

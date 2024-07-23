@@ -380,19 +380,16 @@ router.post("/basic/:id", auth, async (req, res) => {
 // @access  Public
 router.post("/forgotPassword", async (req, res) => {
   try {
-    let { useremail } = req.body;
-    const user_email = await User.findOne({ email: useremail });
-    const user_name = await User.findOne({ name: useremail });
-    let user;
-    if (!user_email && !user_name) {
+    console.log("Inside forgot password");
+    console.log(req.body);
+
+    let { email } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user) {
       return res.status(404).json({ msg: "User does not exist" });
     }
-    if (user_email) {
-      user = user_email;
-    }
-    if (user_name) {
-      user = user_name;
-    }
+
     const secret = process.env.JWT_SECRET + user.password;
     const payload = {
       email: user.email,
@@ -406,10 +403,10 @@ router.post("/forgotPassword", async (req, res) => {
     <div style="background-color: #f5f5f5; padding: 20px;">
       <div style="background-color: #ffffff; padding: 20px; border-radius: 5px;">
         <h1 style="color: #333333; font-size: 20px;">Reset Password</h1>
-        <p style="color: #666666; font-size: 16px;">Dear ${user.name},  
+        <p style="color: #666666; font-size: 16px;">Dear ${user.contact_name},  
         
         </p>
-        <p style="color: #666666; font-size: 16px;">Click on the following link to reset your password:  
+        <p style="color: #666666; font-size: 16px;">Click on the following link to reset your password. The link will expire in 15 minutes!  
         
         </p>
         ${link}
@@ -476,7 +473,7 @@ router.post(
         { expiresIn: /* 1800 */ 36000 },
         (err, token) => {
           if (err) throw err;
-          /*   res.cookie("token", token, {
+          /*  res.cookie("token", token, {
             httpOnly: true,
             secure: true,
             sameSite: "strict",

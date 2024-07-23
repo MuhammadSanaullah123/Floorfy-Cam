@@ -133,7 +133,7 @@ const Login = () => {
               </div>
             </span>
 
-            <Link>Forgot your password?</Link>
+            <Link to="/forgot-password">Forgot your password?</Link>
             <button>Log in</button>
           </form>
 

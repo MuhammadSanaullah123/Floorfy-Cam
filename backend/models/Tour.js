@@ -39,6 +39,23 @@ const TourSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    visited: [
+      {
+        date: {
+          type: Date,
+        },
+      },
+    ],
+    videoCalls: [
+      {
+        timeDuration: {
+          type: String,
+        },
+        date: {
+          type: Date,
+        },
+      },
+    ],
   },
   {
     timestamps: true,

@@ -1,8 +1,8 @@
 import { apiSlice } from "./apiSlice";
 
 /* const USERS_URL = "https://travendev.com/api/api/users"; */
-/* const USERS_URL = "http://localhost:5000/api/users"; */
-const USERS_URL = `${process.env.REACT_APP_BACKEND_URL}/api/users`;
+const USERS_URL = "http://localhost:5000/api/users";
+/* const USERS_URL = `${process.env.REACT_APP_BACKEND_URL}/api/users`; */
 
 export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -74,6 +74,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+
     sendSms: builder.mutation({
       query: (data) => ({
         url: `${USERS_URL}/sms`,

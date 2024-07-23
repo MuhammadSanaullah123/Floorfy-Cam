@@ -112,8 +112,21 @@ const Header = () => {
           inputProps={{
             "aria-label": "weight",
           }}
+          style={{
+            display: `${
+              window.location.pathname.split("/")[1] === "guest" && "none"
+            }`,
+          }}
         />
-        <div className="profileDiv" onClick={() => setProfile(!profile)}>
+        <div
+          className="profileDiv"
+          onClick={() => setProfile(!profile)}
+          style={{
+            display: `${
+              window.location.pathname.split("/")[1] === "guest" && "none"
+            }`,
+          }}
+        >
           <span className="userSpan">
             {userInfo?.image ? (
               <img src={userInfo?.image} alt="" className="profileImg" />
